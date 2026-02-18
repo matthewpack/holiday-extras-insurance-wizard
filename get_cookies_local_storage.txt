@@ -1,0 +1,84 @@
+(() => {
+  function collectClientContextAsText() {
+    const lines = [];
+
+    // ===== COOKIES =====
+    lines.push("=== COOKIES ===");
+    if (document.cookie && document.cookie.length > 0) {
+      document.cookie.split("; ").forEach(cookie => {
+        lines.push(cookie);
+      });
+    } else {
+      lines.push("(No cookies found)");
+    }
+
+    lines.push("");
+
+    // ===== LOCAL STORAGE =====
+    lines.push("=== LOCAL STORAGE ===");
+    if (window.localStorage && localStorage.length > 0) {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = localStorage.getItem(key);
+        lines.push(`${key}: ${value}`);
+      }
+    } else {
+      lines.push("(localStorage is empty)");
+    }
+
+    lines.push("");
+
+    // ===== SESSION STORAGE =====
+    lines.push("=== SESSION STORAGE ===");
+    if (window.sessionStorage && sessionStorage.length > 0) {
+      for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i);
+        const value = sessionStorage.getItem(key);
+        lines.push(`${key}: ${value}`);
+      }
+    } else {
+      lines.push("(sessionStorage is empty)");
+    }
+
+    lines.push("");
+
+    // ===== CLIENT METADATA =====
+    lines.push("=== CLIENT METADATA ===");
+    lines.push(`URL: ${location.href}`);
+    lines.push(`User Agent: ${navigator.userAgent}`);
+    lines.push(`Language: ${navigator.language}`);
+    lines.push(`Platform: ${navigator.platform}`);
+    lines.push(`Cookies Enabled: ${navigator.cookieEnabled}`);
+    lines.push(`Timestamp (UTC): ${new Date().toISOString()}`);
+
+    return lines.join("\n");
+  }
+
+  function downloadClientContextFile(filename = "client-context.txt") {
+    const text = collectClientContextAsText();
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(link.href);
+  }
+
+  const contextText = collectClientContextAsText();
+
+  // Log clearly in the console
+  console.log(
+    "%c=== CLIENT CONTEXT (FOR ASSISTANT) ===\n\n" + contextText,
+    "color: #0a66c2; font-weight: bold;"
+  );
+
+  // Auto-download file
+  downloadClientContextFile();
+
+  return "✅ Client context collected and downloaded as client-context.txt";
+})();

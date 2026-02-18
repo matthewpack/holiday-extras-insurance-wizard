@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Travel Insurance Quote | Holiday Extras</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 300;
+      color: #1a1a2e;
+      background: #f5f5f7;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --purple: #312782;
+      --purple-light: #f0edf8;
+      --purple-border: #312782;
+      --gold: #f5c518;
+      --white: #ffffff;
+      --grey-light: #e8e8ec;
+      --grey-text: #999;
+      --max-width: 420px;
+      --header-height: 64px;
+      --progress-height: 4px;
+    }
+
+    /* ===== LAYOUT ===== */
+    .app {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--white);
+      position: relative;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: var(--purple);
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-logo {
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.5px;
+    }
+    .header-logo .holiday {
+      color: var(--gold);
+      font-weight: 400;
+    }
+    .header-logo .extras {
+      color: var(--white);
+      font-style: italic;
+      font-weight: 700;
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-bar {
+      height: var(--progress-height);
+      background: var(--grey-light);
+      position: sticky;
+      top: var(--header-height);
+      z-index: 99;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      transition: width 0.4s ease;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* ===== SECTIONS ===== */
+    .step {
+      display: none;
+      padding: 24px 20px 120px;
+      animation: fadeIn 0.25s ease;
+    }
+    .step.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    .step-label {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--grey-text);
+      margin-bottom: 4px;
+    }
+    .step-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1a1a2e;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .step-description {
+      font-size: 15px;
+      font-weight: 300;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    /* ===== CARD BUTTONS ===== */
+    .card {
+      border: 2px solid var(--purple-border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      background: var(--white);
+      transition: background 0.15s ease, transform 0.1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .card:active {
+      background: var(--purple-light);
+      transform: scale(0.98);
+    }
+    .card-content { flex: 1; }
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 4px;
+    }
+    .card-subtitle {
+      font-size: 14px;
+      font-weight: 300;
+      color: #555;
+      line-height: 1.4;
+    }
+    .card-chevron {
+      font-size: 22px;
+      color: var(--purple);
+      margin-left: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Large cards (trip type) */
+    .card-large {
+      padding: 22px 20px;
+    }
+    .card-large .card-title {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+    .card-large .card-subtitle {
+      font-size: 15px;
+    }
+
+    /* ===== YES/NO CARDS (side by side) ===== */
+    .cards-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .card-yn {
+      border: 2px solid var(--purple-border);
+      border-radius: 12px;
+      padding: 18px 16px;
+      cursor: pointer;
+      background: var(--white);
+      transition: background 0.15s ease, transform 0.1s ease;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-yn:active {
+      background: var(--purple-light);
+      transform: scale(0.97);
+    }
+    .card-yn .yn-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-yn .yn-subtitle {
+      font-size: 13px;
+      font-weight: 300;
+      color: #555;
+      line-height: 1.4;
+    }
+    .yn-chevron {
+      font-size: 18px;
+      color: var(--purple);
+    }
+
+    /* ===== NUMBER GRID (travellers) ===== */
+    .number-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .number-btn {
+      border: 2px solid var(--purple-border);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      background: var(--white);
+      font-family: 'Nunito', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--purple);
+      text-align: center;
+      transition: background 0.15s ease, transform 0.1s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .number-btn:active {
+      background: var(--purple-light);
+      transform: scale(0.95);
+    }
+
+    /* ===== AMOUNT BUTTONS (cancellation) ===== */
+    .amount-btn {
+      border: 2px solid var(--purple-border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      background: var(--white);
+      font-family: 'Nunito', sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      color: #1a1a2e;
+      text-align: center;
+      transition: background 0.15s ease, transform 0.1s ease;
+      -webkit-tap-highlight-color: transparent;
+      display: block;
+      width: 100%;
+    }
+    .amount-btn:active {
+      background: var(--purple-light);
+      transform: scale(0.98);
+    }
+    .amount-btn strong {
+      font-weight: 700;
+    }
+
+    /* ===== CONTINUE BUTTON ===== */
+    .continue-btn {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: var(--max-width);
+      background: var(--purple);
+      color: var(--white);
+      padding: 18px 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      -webkit-tap-highlight-color: transparent;
+      z-index: 50;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+    }
+    .continue-btn:active {
+      opacity: 0.9;
+    }
+    .continue-btn .btn-text {
+      text-align: left;
+    }
+    .continue-btn .btn-label {
+      font-size: 18px;
+      font-weight: 700;
+      display: block;
+    }
+    .continue-btn .btn-detail {
+      font-size: 14px;
+      font-weight: 300;
+      opacity: 0.9;
+      display: block;
+      margin-top: 2px;
+    }
+    .continue-btn .btn-chevron {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    /* ===== CALENDAR ===== */
+    .calendar { margin-bottom: 20px; }
+
+    .year-toggle {
+      display: flex;
+      background: var(--grey-light);
+      border-radius: 24px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .year-btn {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: #555;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .year-btn.active {
+      background: var(--purple);
+      color: var(--white);
+      border-radius: 24px;
+    }
+
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .month-btn {
+      padding: 8px 4px;
+      text-align: center;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: #555;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .month-btn.active {
+      background: var(--purple);
+      color: var(--white);
+      font-weight: 600;
+    }
+    .month-btn.disabled {
+      color: #ccc;
+      pointer-events: none;
+    }
+
+    .cal-header {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--purple);
+      margin-bottom: 12px;
+    }
+
+    .day-labels {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+    .day-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--purple);
+      padding: 4px;
+    }
+
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .day-cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 400;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+      color: #1a1a2e;
+    }
+    .day-cell:active {
+      transform: scale(0.9);
+    }
+    .day-cell.empty {
+      cursor: default;
+    }
+    .day-cell.past {
+      color: #ccc;
+      pointer-events: none;
+    }
+    .day-cell.selected {
+      background: var(--purple);
+      color: var(--white);
+      font-weight: 700;
+    }
+    .day-cell.today {
+      border: 2px solid var(--purple);
+    }
+
+    .cal-note {
+      font-size: 14px;
+      font-weight: 300;
+      color: #555;
+      margin-top: 16px;
+      line-height: 1.4;
+    }
+    .cal-note.warning {
+      color: #d4380d;
+    }
+
+    /* ===== FORM FIELDS ===== */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-field {
+      border: 2px solid var(--purple-border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      position: relative;
+    }
+    .form-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--purple);
+      margin-bottom: 4px;
+    }
+    .form-field input,
+    .form-field select {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-family: 'Nunito', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: #1a1a2e;
+      background: transparent;
+      padding: 0;
+    }
+    .form-field select {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      padding-right: 24px;
+    }
+    .form-field .select-arrow {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: #555;
+      pointer-events: none;
+    }
+    .title-field {
+      display: inline-block;
+    }
+
+    /* ===== ELIGIBILITY ===== */
+    .eligibility-section {
+      margin-bottom: 16px;
+    }
+    .eligibility-heading {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
+    .eligibility-text {
+      font-size: 15px;
+      font-weight: 300;
+      color: #1a1a2e;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    /* ===== MEDICAL QUESTIONS ===== */
+    .medical-body h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--purple);
+      margin-top: 16px;
+      margin-bottom: 4px;
+    }
+    .medical-body p {
+      font-size: 15px;
+      font-weight: 300;
+      color: #1a1a2e;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    /* ===== ADDITIONAL COVER ===== */
+    .toggle-card {
+      border: 2px solid var(--purple-border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      background: var(--white);
+      transition: background 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .toggle-card.selected {
+      background: var(--purple-light);
+      border-color: var(--purple);
+    }
+    .toggle-card:active {
+      transform: scale(0.98);
+    }
+    .toggle-indicator {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 2px solid var(--purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-left: 12px;
+      font-size: 14px;
+      color: var(--white);
+      transition: background 0.15s ease;
+    }
+    .toggle-card.selected .toggle-indicator {
+      background: var(--purple);
+    }
+
+    /* ===== SUMMARY ===== */
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--grey-light);
+      font-size: 15px;
+    }
+    .summary-label {
+      font-weight: 400;
+      color: #555;
+    }
+    .summary-value {
+      font-weight: 600;
+      color: #1a1a2e;
+      text-align: right;
+    }
+    .summary-section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--purple);
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+
+    /* ===== LANDING PAGE ===== */
+    .landing-hero {
+      text-align: center;
+      padding: 32px 0 24px;
+    }
+    .landing-hero h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a1a2e;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .landing-hero p {
+      font-size: 16px;
+      font-weight: 300;
+      color: #555;
+      line-height: 1.5;
+    }
+    .cta-btn {
+      display: block;
+      width: 100%;
+      background: var(--purple);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      padding: 20px 24px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 24px;
+      -webkit-tap-highlight-color: transparent;
+      transition: opacity 0.15s ease;
+    }
+    .cta-btn:active { opacity: 0.9; }
+    .landing-note {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 300;
+      color: #999;
+      margin-top: 12px;
+    }
+
+    /* Greeting banner */
+    .greeting-banner {
+      background: var(--purple-light);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .greeting-banner.visible { display: block; }
+    .greeting-banner p {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--purple);
+    }
+    .greeting-banner strong {
+      font-weight: 700;
+    }
+
+    /* Resume banner */
+    .resume-banner {
+      background: var(--gold);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      display: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .resume-banner.visible { display: block; }
+    .resume-banner p {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--purple);
+    }
+    .resume-banner small {
+      font-size: 13px;
+      font-weight: 300;
+      color: #333;
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* ===== UTILITIES ===== */
+    .hidden { display: none !important; }
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mb-24 { margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo"><span class="holiday">holiday</span><span class="extras">extras</span></div>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+  </div>
+
+  <!-- ===== STEP 0: LANDING ===== -->
+  <section class="step" id="step-landing">
+    <div class="greeting-banner" id="greetingBanner">
+      <p>Welcome back, <strong id="greetingName"></strong></p>
+    </div>
+    <div class="resume-banner" id="resumeBanner" onclick="resumeQuote()">
+      <p>Continue your quote</p>
+      <small id="resumeDetail"></small>
+    </div>
+    <div class="landing-hero">
+      <h1>Travel Insurance from 10p per day*</h1>
+      <p>Here at Holiday Extras, we've streamlined the process of getting a travel insurance quote.</p>
+    </div>
+    <button class="cta-btn" onclick="navigateTo('trip-type')">Get a quick quote</button>
+    <p class="landing-note">For single and annual cover</p>
+  </section>
+
+  <!-- ===== STEP 1: TRIP TYPE ===== -->
+  <section class="step" id="step-trip-type">
+    <h2 class="step-title">How many trips are you planning in the next 12 months?</h2>
+
+    <div class="card card-large" onclick="selectTripType('annual')">
+      <div class="card-content">
+        <div class="card-title">Annual Cover</div>
+        <div class="card-subtitle">Unlimited trips for 12 months.<br>Usually better value and more convenient if you travel more than once in the UK or abroad.</div>
+      </div>
+    </div>
+
+    <p class="step-description mt-16 mb-24">Annual cover renews automatically each year – we'll remind you before it does, and you can opt out at any time.</p>
+
+    <div class="card card-large" onclick="selectTripType('single')">
+      <div class="card-content">
+        <div class="card-title">Single Trip Cover</div>
+        <div class="card-subtitle">One trip only.<br>You'll still see the annual price to compare before you decide</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STEP 2: DESTINATION ===== -->
+  <section class="step" id="step-destination">
+    <h2 class="step-title">Travelling to</h2>
+
+    <div class="card" onclick="selectDestination('europe-inc')">
+      <div class="card-content">
+        <div class="card-title">Europe <em>including</em></div>
+        <div class="card-subtitle">Spain, Cyprus, Malta, Turkey, Greece</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="selectDestination('europe-exc')">
+      <div class="card-content">
+        <div class="card-title">Europe <em>excluding</em></div>
+        <div class="card-subtitle">Spain, Cyprus, Malta, Turkey, Greece</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="selectDestination('aus-nz')">
+      <div class="card-content">
+        <div class="card-title">Australia &amp; New Zealand</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="selectDestination('worldwide-inc')">
+      <div class="card-content">
+        <div class="card-title">Worldwide <em>including</em></div>
+        <div class="card-subtitle">USA, Canada, Mexico and Caribbean</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="selectDestination('worldwide-exc')">
+      <div class="card-content">
+        <div class="card-title">Worldwide <em>excluding</em></div>
+        <div class="card-subtitle">USA, Canada, Mexico and Caribbean</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STEP 3: CRUISE ===== -->
+  <section class="step" id="step-cruise">
+    <h2 class="step-title">Going on a sea cruise?</h2>
+
+    <div class="cards-row">
+      <div class="card-yn" onclick="selectCruise(false)">
+        <div class="yn-title">No <span class="yn-chevron">›</span></div>
+        <div class="yn-subtitle">Cruise cover not required</div>
+      </div>
+      <div class="card-yn" onclick="selectCruise(true)">
+        <div class="yn-title">Yes <span class="yn-chevron">›</span></div>
+        <div class="yn-subtitle">Add Cruise Cover</div>
+      </div>
+    </div>
+
+    <p class="step-description">From missed ports to cabin confinement and itinerary changes, our cruise cover helps with the extras.</p>
+  </section>
+
+  <!-- ===== STEP 4: ADDITIONAL COVER (commented out — coming back to this later) =====
+  <section class="step" id="step-additional-cover">
+    <h2 class="step-title">Additional cover</h2>
+    <p class="step-description">Select any extras you'd like to add to your policy.</p>
+
+    <div class="toggle-card" id="toggleWinterSports" onclick="toggleAdditional('winterSports')">
+      <div class="card-content">
+        <div class="card-title">Winter Sports</div>
+        <div class="card-subtitle">Cover for skiing, snowboarding and other winter sports activities.</div>
+      </div>
+      <div class="toggle-indicator" id="indicatorWinterSports">✓</div>
+    </div>
+
+    <div class="toggle-card" id="toggleCarHire" onclick="toggleAdditional('carHireExcess')">
+      <div class="card-content">
+        <div class="card-title">Car Hire Excess</div>
+        <div class="card-subtitle">Cover for the excess charged if your hire car is damaged or stolen.</div>
+      </div>
+      <div class="toggle-indicator" id="indicatorCarHire">✓</div>
+    </div>
+
+    <button class="continue-btn" onclick="confirmAdditionalCover()">
+      <div class="btn-text">
+        <span class="btn-label">Continue</span>
+      </div>
+      <span class="btn-chevron">›</span>
+    </button>
+  </section>
+  -->
+
+  <!-- ===== STEP 5: CANCELLATION COVER ===== -->
+  <section class="step" id="step-cancellation">
+    <h2 class="step-title">Cancellation cover</h2>
+
+    <button class="amount-btn" onclick="selectCancellation(500)"><strong>£500</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(1000)"><strong>£1,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(2500)"><strong>£2,500</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(5000)"><strong>£5,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(6000)"><strong>£6,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(7000)"><strong>£7,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(8000)"><strong>£8,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(9000)"><strong>£9,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(10000)"><strong>£10,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(10001)"><strong>£10,000+</strong> per person</button>
+  </section>
+
+  <!-- ===== STEP 6: HOLIDAY START ===== -->
+  <section class="step" id="step-holiday-start">
+    <h2 class="step-title">Holiday starts</h2>
+    <div class="calendar" id="calStart"></div>
+    <div id="calStartNote" class="cal-note"></div>
+    <button class="continue-btn" id="btnStartContinue" onclick="confirmHolidayStart()">
+      <div class="btn-text">
+        <span class="btn-label">Continue</span>
+        <span class="btn-detail" id="btnStartDate"></span>
+      </div>
+      <span class="btn-chevron">›</span>
+    </button>
+  </section>
+
+  <!-- ===== STEP 7: HOLIDAY END ===== -->
+  <section class="step" id="step-holiday-end">
+    <h2 class="step-title">Holiday ends</h2>
+    <div class="calendar" id="calEnd"></div>
+    <button class="continue-btn" id="btnEndContinue" onclick="confirmHolidayEnd()">
+      <div class="btn-text">
+        <span class="btn-label">Continue</span>
+        <span class="btn-detail" id="btnEndDate"></span>
+      </div>
+      <span class="btn-chevron">›</span>
+    </button>
+  </section>
+
+  <!-- ===== STEP 8: TRAVELLERS ===== -->
+  <section class="step" id="step-travellers">
+    <h2 class="step-title">Travellers</h2>
+    <div class="number-grid">
+      <button class="number-btn" onclick="selectTravellers(1)">1</button>
+      <button class="number-btn" onclick="selectTravellers(2)">2</button>
+      <button class="number-btn" onclick="selectTravellers(3)">3</button>
+      <button class="number-btn" onclick="selectTravellers(4)">4</button>
+      <button class="number-btn" onclick="selectTravellers(5)">5</button>
+      <button class="number-btn" onclick="selectTravellers(6)">6</button>
+      <button class="number-btn" onclick="selectTravellers(7)">7</button>
+      <button class="number-btn" onclick="selectTravellers(8)">8</button>
+      <button class="number-btn" onclick="selectTravellers(9)">9</button>
+    </div>
+  </section>
+
+  <!-- ===== STEP 9: RELATIONSHIP ===== -->
+  <section class="step" id="step-relationship">
+    <h2 class="step-title">Relationship</h2>
+
+    <div class="card" onclick="selectRelationship('couple')">
+      <div class="card-content">
+        <div class="card-title">Couple</div>
+        <div class="card-subtitle">Two adults living together.</div>
+      </div>
+      <span class="card-chevron">›</span>
+    </div>
+
+    <div class="card" onclick="selectRelationship('family')">
+      <div class="card-content">
+        <div class="card-title">Family</div>
+        <div class="card-subtitle">Parents and up to five children under 18 in the same household.</div>
+      </div>
+      <span class="card-chevron">›</span>
+    </div>
+
+    <div class="card" onclick="selectRelationship('group')">
+      <div class="card-content">
+        <div class="card-title">Group</div>
+        <div class="card-subtitle">Anyone travelling together.</div>
+      </div>
+      <span class="card-chevron">›</span>
+    </div>
+  </section>
+
+  <!-- ===== STEP 10: TRAVELLER DETAILS (dynamic) ===== -->
+  <section class="step" id="step-traveller">
+    <h2 class="step-title" id="travellerHeading">Traveller</h2>
+
+    <div class="form-group">
+      <div class="form-field title-field">
+        <label>Title</label>
+        <select id="travellerTitle" onchange="updateTravellerContinue()">
+          <option value="">Select</option>
+          <option value="Mr">Mr</option>
+          <option value="Mrs">Mrs</option>
+          <option value="Miss">Miss</option>
+          <option value="Ms">Ms</option>
+          <option value="Mx">Mx</option>
+          <option value="Dr">Dr</option>
+        </select>
+        <span class="select-arrow">▾</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-field">
+        <label>First Name</label>
+        <input type="text" id="travellerFirstName" oninput="updateTravellerContinue()" autocomplete="given-name">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-field">
+        <label>Last Name</label>
+        <input type="text" id="travellerLastName" oninput="updateTravellerContinue()" autocomplete="family-name">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-field">
+        <label>Date of birth</label>
+        <input type="text" id="travellerDob" placeholder="DD / MM / YYYY" oninput="formatDob(this); updateTravellerContinue()" inputmode="numeric" maxlength="14">
+      </div>
+    </div>
+
+    <button class="continue-btn" id="btnTravellerContinue" onclick="confirmTraveller()">
+      <div class="btn-text">
+        <span class="btn-label">Continue</span>
+        <span class="btn-detail" id="btnTravellerDetail"></span>
+      </div>
+      <span class="btn-chevron">›</span>
+    </button>
+  </section>
+
+  <!-- ===== STEP 11: EMAIL ===== -->
+  <section class="step" id="step-email">
+    <h2 class="step-title">Send me a copy of my quote to</h2>
+
+    <div class="form-group">
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" id="emailInput" oninput="updateEmailContinue()" autocomplete="email">
+      </div>
+    </div>
+
+    <button class="continue-btn" id="btnEmailContinue" onclick="confirmEmail()">
+      <div class="btn-text">
+        <span class="btn-label">Continue</span>
+        <span class="btn-detail" id="btnEmailDetail"></span>
+      </div>
+      <span class="btn-chevron">›</span>
+    </button>
+  </section>
+
+  <!-- ===== STEP 12: ELIGIBILITY ===== -->
+  <section class="step" id="step-eligibility">
+    <h2 class="step-title">Eligibility Criteria</h2>
+
+    <div class="eligibility-section">
+      <div class="eligibility-heading">You must</div>
+      <p class="eligibility-text">Live in the UK, the Channel Islands or the Isle of Man and have lived there for at least 6 of the last 12 months</p>
+      <p class="eligibility-text">Be registered with a General Practitioner in that location.</p>
+      <p class="eligibility-text">Follow the latest Foreign, Commonwealth and Development Office (FCDO) travel advice</p>
+      <p class="eligibility-text">Start and end your trip in the UK</p>
+      <p class="eligibility-text">Be in the UK when you buy your policy</p>
+    </div>
+
+    <div class="eligibility-section">
+      <div class="eligibility-heading" style="color: var(--purple);">When cover doesn't apply:</div>
+      <p class="eligibility-text">If buying insurance with the intention of making a claim</p>
+      <p class="eligibility-text">If you are already aware of something that's likely to lead to a claim</p>
+      <p class="eligibility-text">If you are travelling against medical advice, or travelling specifically to receive medical treatment</p>
+    </div>
+
+    <button class="continue-btn" onclick="agreeEligibility()">
+      <div class="btn-text">
+        <span class="btn-label">Agree and continue</span>
+        <span class="btn-detail">I have read the above criteria</span>
+      </div>
+      <span class="btn-chevron">›</span>
+    </button>
+  </section>
+
+  <!-- ===== STEP 13: MEDICAL Q1 ===== -->
+  <section class="step" id="step-medical-1">
+    <p class="step-label">Medical question 1 of 4</p>
+    <h2 class="step-title">Is anyone travelling</h2>
+
+    <div class="medical-body">
+      <p>Currently undergoing or awaiting surgery, a procedure, hospital treatment, dialysis or cancer treatment</p>
+      <p>Awaiting tests, test results or investigations for a diagnosed condition</p>
+      <p>Diagnosed with a terminal illness</p>
+      <p>Previously treated for alcohol or drug addiction in the last five years</p>
+    </div>
+
+    <div class="cards-row mt-16">
+      <div class="card-yn" onclick="answerMedical('surgeryTreatment', false)">
+        <div class="yn-title">No <span class="yn-chevron">›</span></div>
+        <div class="yn-subtitle">None of these apply</div>
+      </div>
+      <div class="card-yn" onclick="answerMedical('surgeryTreatment', true)">
+        <div class="yn-title">Yes <span class="yn-chevron">›</span></div>
+        <div class="yn-subtitle">Applies to someone</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STEP 14: MEDICAL Q2 ===== -->
+  <section class="step" id="step-medical-2">
+    <p class="step-label">Medical question 2 of 4</p>
+    <h2 class="step-title">Is anyone travelling</h2>
+
+    <div class="medical-body">
+      <p>Currently experiencing symptoms that have not yet been diagnosed?</p>
+    </div>
+
+    <div class="cards-row mt-16">
+      <div class="card-yn" onclick="answerMedical('undiagnosedSymptoms', false)">
+        <div class="yn-title">No <span class="yn-chevron">›</span></div>
+        <div class="yn-subtitle">Doesn't apply to anyone</div>
+      </div>
+      <div class="card-yn" onclick="answerMedical('undiagnosedSymptoms', true)">
+        <div class="yn-title">Yes <span class="yn-chevron">›</span></div>
+        <div class="yn-subtitle">Applies to someone</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STEP 15: MEDICAL Q3 ===== -->
+  <section class="step" id="step-medical-3">
+    <p class="step-label">Medical question 3 of 4</p>
+    <h2 class="step-title">Has any traveller ever had any of the following conditions?</h2>
+
+    <div class="medical-body">
+      <h4>Heart or circulation condition</h4>
+      <p>Heart attack, angina, high blood pressure, blood clots, raised cholesterol, aneurysm, or other circulatory conditions.</p>
+
+      <h4>Brain or nervous system condition</h4>
+      <p>Stroke, mini-stroke (TIA), or brain haemorrhage.</p>
+
+      <h4>Lung condition</h4>
+      <p>Any lung or respiratory condition (excluding stable, well-controlled asthma).</p>
+
+      <h4>Digestive system condition</h4>
+      <p>Bowel or abdominal conditions such as gallstones, diverticulitis, IBS or Crohn's disease.</p>
+
+      <h4>Cancer</h4>
+      <p>Any form of cancer, whether in remission or not.</p>
+    </div>
+
+    <div class="cards-row mt-16">
+      <div class="card-yn" onclick="answerMedical('listedConditions', false)">
+        <div class="yn-title">No <span class="yn-chevron">›</span></div>
+        <div class="yn-subtitle">None of these apply</div>
+      </div>
+      <div class="card-yn" onclick="answerMedical('listedConditions', true)">
+        <div class="yn-title">Yes <span class="yn-chevron">›</span></div>
+        <div class="yn-subtitle">Applies to someone</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STEP 16: MEDICAL Q4 ===== -->
+  <section class="step" id="step-medical-4">
+    <p class="step-label">Medical question 4 of 4</p>
+    <h2 class="step-title">Recent physical or psychological conditions</h2>
+
+    <div class="medical-body">
+      <p>In the last two years, has anyone travelling had any physical or psychological conditions that required treatment, consultations, investigations or medication?</p>
+    </div>
+
+    <div class="cards-row mt-16">
+      <div class="card-yn" onclick="answerMedical('recentConditions', false)">
+        <div class="yn-title">No <span class="yn-chevron">›</span></div>
+        <div class="yn-subtitle">None of these apply</div>
+      </div>
+      <div class="card-yn" onclick="answerMedical('recentConditions', true)">
+        <div class="yn-title">Yes <span class="yn-chevron">›</span></div>
+        <div class="yn-subtitle">Applies to someone</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STEP 17: SUMMARY ===== -->
+  <section class="step" id="step-summary">
+    <h2 class="step-title">Your quote summary</h2>
+    <div id="summaryContent"></div>
+    <button class="continue-btn" onclick="submitQuote()">
+      <div class="btn-text">
+        <span class="btn-label">Get my quote</span>
+        <span class="btn-detail">Submit to see your price</span>
+      </div>
+      <span class="btn-chevron">›</span>
+    </button>
+  </section>
+
+</div><!-- /app -->
+
+<script>
+// ===== WIZARD STATE =====
+let wizardState = {
+  tripType: null,
+  destination: null,
+  cruise: null,
+  winterSports: false,
+  carHireExcess: false,
+  cancellationCover: null,
+  holidayStart: null,
+  holidayEnd: null,
+  travellerCount: null,
+  relationship: null,
+  travellers: [],
+  email: null,
+  eligibilityAgreed: false,
+  medical: {
+    surgeryTreatment: null,
+    undiagnosedSymptoms: null,
+    listedConditions: null,
+    recentConditions: null
+  }
+};
+
+// Current traveller being edited (0-indexed)
+let currentTravellerIndex = 0;
+
+// Saved step for resume (captured before showStep overwrites it)
+let savedResumeStep = null;
+
+// Ordered step list (dynamic — holiday-end may be removed)
+const BASE_STEPS = [
+  'landing', 'trip-type', 'destination', 'cruise',
+  /* 'additional-cover', — coming back to this later */
+  'cancellation', 'holiday-start', 'holiday-end', 'travellers',
+  'relationship', 'traveller', 'email', 'eligibility',
+  'medical-1', 'medical-2', 'medical-3', 'medical-4', 'summary'
+];
+
+function getSteps() {
+  let steps = [...BASE_STEPS];
+  // Remove holiday-end for annual trips
+  if (wizardState.tripType === 'annual') {
+    steps = steps.filter(s => s !== 'holiday-end');
+  }
+  // Remove relationship for solo travellers
+  if (wizardState.travellerCount === 1) {
+    steps = steps.filter(s => s !== 'relationship');
+  }
+  return steps;
+}
+
+function getStepIndex(hash) {
+  const steps = getSteps();
+  // Handle traveller-N hashes
+  if (hash && hash.startsWith('traveller-')) return steps.indexOf('traveller');
+  return steps.indexOf(hash || 'landing');
+}
+
+function getProgress(hash) {
+  const steps = getSteps();
+  const idx = getStepIndex(hash);
+  if (idx <= 0) return 0;
+  return Math.round((idx / (steps.length - 1)) * 100);
+}
+
+// ===== NAVIGATION =====
+function navigateTo(hash) {
+  window.location.hash = hash;
+}
+
+function showStep(hash) {
+  if (!hash || hash === '') hash = 'landing';
+
+  // Hide all steps
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+
+  // Determine which section to show
+  let sectionId;
+  if (hash.startsWith('traveller-')) {
+    sectionId = 'step-traveller';
+    const num = parseInt(hash.split('-')[1]);
+    currentTravellerIndex = num - 1;
+    setupTravellerForm();
+  } else {
+    sectionId = 'step-' + hash;
+  }
+
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.classList.add('active');
+  }
+
+  // Update progress
+  document.getElementById('progressFill').style.width = getProgress(hash) + '%';
+
+  // Scroll to top
+  window.scrollTo(0, 0);
+
+  // Save state
+  saveState();
+
+  // Step-specific setup — reset calendar init so it re-syncs from wizardState
+  if (hash === 'holiday-start') {
+    calState.start = { year: null, month: null, day: null, initialized: false };
+    renderCalendar('start');
+  }
+  if (hash === 'holiday-end') {
+    calState.end = { year: null, month: null, day: null, initialized: false };
+    renderCalendar('end');
+  }
+  if (hash === 'email') setupEmailForm();
+  if (hash === 'summary') renderSummary();
+  if (hash === 'additional-cover') setupAdditionalCover();
+}
+
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash.slice(1);
+  showStep(hash);
+});
+
+// Initial load
+window.addEventListener('DOMContentLoaded', () => {
+  try { loadExistingData(); } catch(e) { console.warn('loadExistingData error:', e); }
+  try { restoreState(); } catch(e) { console.warn('restoreState error:', e); }
+  const hash = window.location.hash.slice(1);
+  showStep(hash || 'landing');
+});
+
+// ===== STEP HANDLERS =====
+
+function selectTripType(type) {
+  wizardState.tripType = type;
+  navigateTo('destination');
+}
+
+function selectDestination(dest) {
+  wizardState.destination = dest;
+  navigateTo('cruise');
+}
+
+function selectCruise(val) {
+  wizardState.cruise = val;
+  navigateTo('cancellation');
+}
+
+function setupAdditionalCover() {
+  // Commented out — coming back to this later
+  // document.getElementById('toggleWinterSports').classList.toggle('selected', wizardState.winterSports);
+  // document.getElementById('toggleCarHire').classList.toggle('selected', wizardState.carHireExcess);
+}
+
+function toggleAdditional(key) {
+  wizardState[key] = !wizardState[key];
+  setupAdditionalCover();
+}
+
+function confirmAdditionalCover() {
+  navigateTo('cancellation');
+}
+
+function selectCancellation(amount) {
+  wizardState.cancellationCover = amount;
+  navigateTo('holiday-start');
+}
+
+function confirmHolidayStart() {
+  // Reset end date to start + 7 so the end picker defaults fresh
+  wizardState.holidayEnd = null;
+  calState.end = { year: null, month: null, day: null, initialized: false };
+
+  if (wizardState.tripType === 'annual') {
+    navigateTo('travellers');
+  } else {
+    navigateTo('holiday-end');
+  }
+}
+
+function confirmHolidayEnd() {
+  navigateTo('travellers');
+}
+
+function selectTravellers(count) {
+  wizardState.travellerCount = count;
+  // Initialize traveller slots
+  while (wizardState.travellers.length < count) {
+    wizardState.travellers.push({ title: '', firstName: '', lastName: '', dob: '' });
+  }
+  wizardState.travellers.length = count;
+
+  if (count === 1) {
+    // Solo traveller — skip relationship, not relevant
+    wizardState.relationship = null;
+    navigateTo('traveller-1');
+  } else {
+    navigateTo('relationship');
+  }
+}
+
+function selectRelationship(rel) {
+  wizardState.relationship = rel;
+  navigateTo('traveller-1');
+}
+
+function setupTravellerForm() {
+  const idx = currentTravellerIndex;
+  const total = wizardState.travellerCount;
+  const heading = document.getElementById('travellerHeading');
+  heading.textContent = total > 1 ? `Traveller ${idx + 1} of ${total}` : 'Traveller';
+
+  const t = wizardState.travellers[idx] || {};
+  document.getElementById('travellerTitle').value = t.title || '';
+  document.getElementById('travellerFirstName').value = t.firstName || '';
+  document.getElementById('travellerLastName').value = t.lastName || '';
+  document.getElementById('travellerDob').value = t.dob || '';
+
+  updateTravellerContinue();
+}
+
+function formatDob(input) {
+  let v = input.value.replace(/[^\d]/g, '');
+  if (v.length > 8) v = v.slice(0, 8);
+  let formatted = '';
+  if (v.length > 0) formatted += v.slice(0, 2);
+  if (v.length > 2) formatted += ' / ' + v.slice(2, 4);
+  if (v.length > 4) formatted += ' / ' + v.slice(4, 8);
+  input.value = formatted;
+}
+
+function parseDob(dobStr) {
+  const parts = dobStr.replace(/\s/g, '').split('/');
+  if (parts.length !== 3) return null;
+  const day = parseInt(parts[0]);
+  const month = parseInt(parts[1]) - 1;
+  const year = parseInt(parts[2]);
+  if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
+  return new Date(year, month, day);
+}
+
+function calcAge(dobDate) {
+  const today = new Date();
+  let age = today.getFullYear() - dobDate.getFullYear();
+  const m = today.getMonth() - dobDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) age--;
+  return age;
+}
+
+function updateTravellerContinue() {
+  const title = document.getElementById('travellerTitle').value;
+  const first = document.getElementById('travellerFirstName').value.trim();
+  const last = document.getElementById('travellerLastName').value.trim();
+  const dob = document.getElementById('travellerDob').value;
+  const detail = document.getElementById('btnTravellerDetail');
+
+  const dobDate = parseDob(dob);
+  const complete = title && first && last && dobDate;
+
+  if (complete) {
+    const age = calcAge(dobDate);
+    detail.textContent = `${title} ${first} ${last}, ${age}`;
+  } else if (first || last) {
+    detail.textContent = [title, first, last].filter(Boolean).join(' ');
+  } else {
+    detail.textContent = 'Enter traveller details';
+  }
+}
+
+function confirmTraveller() {
+  const idx = currentTravellerIndex;
+  wizardState.travellers[idx] = {
+    title: document.getElementById('travellerTitle').value,
+    firstName: document.getElementById('travellerFirstName').value.trim(),
+    lastName: document.getElementById('travellerLastName').value.trim(),
+    dob: document.getElementById('travellerDob').value
+  };
+
+  if (idx + 1 < wizardState.travellerCount) {
+    navigateTo('traveller-' + (idx + 2));
+  } else {
+    navigateTo('email');
+  }
+}
+
+function setupEmailForm() {
+  const input = document.getElementById('emailInput');
+  if (!input.value && wizardState.email) {
+    input.value = wizardState.email;
+  }
+  updateEmailContinue();
+}
+
+function updateEmailContinue() {
+  const email = document.getElementById('emailInput').value.trim();
+  const detail = document.getElementById('btnEmailDetail');
+
+  if (email && email.includes('@')) {
+    detail.textContent = 'Email ' + email;
+  } else {
+    detail.textContent = 'Skip or enter your email';
+  }
+}
+
+function confirmEmail() {
+  const email = document.getElementById('emailInput').value.trim();
+  wizardState.email = email || null;
+  navigateTo('eligibility');
+}
+
+function agreeEligibility() {
+  wizardState.eligibilityAgreed = true;
+  navigateTo('medical-1');
+}
+
+function answerMedical(key, val) {
+  wizardState.medical[key] = val;
+  const medicalOrder = ['surgeryTreatment', 'undiagnosedSymptoms', 'listedConditions', 'recentConditions'];
+  const idx = medicalOrder.indexOf(key);
+  if (idx < medicalOrder.length - 1) {
+    navigateTo('medical-' + (idx + 2));
+  } else {
+    navigateTo('summary');
+  }
+}
+
+// ===== CALENDAR =====
+let calState = {
+  start: { year: null, month: null, day: null, initialized: false },
+  end:   { year: null, month: null, day: null, initialized: false }
+};
+
+function renderCalendar(type) {
+  const container = document.getElementById(type === 'start' ? 'calStart' : 'calEnd');
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const state = calState[type];
+
+  // --- First-time setup: defaults + sync from wizardState ---
+  if (!state.initialized) {
+    state.initialized = true;
+
+    if (type === 'start') {
+      // Default start = today
+      if (!wizardState.holidayStart) {
+        wizardState.holidayStart = today.toISOString();
+        const note = document.getElementById('calStartNote');
+        if (note) {
+          note.textContent = "Travelling today? If you've left you won't have cancellation cover for this trip.";
+          note.className = 'cal-note warning';
+        }
+      }
+      // Sync calendar to stored start date
+      const d = new Date(wizardState.holidayStart);
+      state.year = d.getFullYear();
+      state.month = d.getMonth();
+      state.day = d.getDate();
+    }
+
+    if (type === 'end') {
+      // Default end = start + 7 days
+      if (!wizardState.holidayEnd && wizardState.holidayStart) {
+        const startDate = new Date(wizardState.holidayStart);
+        const defaultEnd = new Date(startDate);
+        defaultEnd.setDate(defaultEnd.getDate() + 7);
+        wizardState.holidayEnd = defaultEnd.toISOString();
+      }
+      // Sync calendar to stored end date
+      if (wizardState.holidayEnd) {
+        const d = new Date(wizardState.holidayEnd);
+        state.year = d.getFullYear();
+        state.month = d.getMonth();
+        state.day = d.getDate();
+      }
+    }
+  }
+
+  // Fallbacks if still unset
+  if (!state.year) state.year = now.getFullYear();
+  if (state.month === null) state.month = now.getMonth();
+
+  const years = [now.getFullYear(), now.getFullYear() + 1];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  // Build year toggle
+  let html = '<div class="year-toggle">';
+  years.forEach(y => {
+    html += `<button class="year-btn ${state.year === y ? 'active' : ''}" onclick="setCalYear('${type}', ${y})">${y}</button>`;
+  });
+  html += '</div>';
+
+  // Build month grid
+  html += '<div class="month-grid">';
+  months.forEach((m, i) => {
+    const isPast = state.year === now.getFullYear() && i < now.getMonth();
+    html += `<button class="month-btn ${state.month === i ? 'active' : ''} ${isPast ? 'disabled' : ''}" onclick="setCalMonth('${type}', ${i})">${m}</button>`;
+  });
+  html += '</div>';
+
+  // Calendar title
+  html += `<div class="cal-header">${months[state.month]} '${String(state.year).slice(2)}</div>`;
+
+  // Day labels
+  html += '<div class="day-labels">';
+  dayNames.forEach(d => { html += `<div class="day-label">${d}</div>`; });
+  html += '</div>';
+
+  // Day grid
+  const firstDay = new Date(state.year, state.month, 1);
+  let startDow = firstDay.getDay();
+  if (startDow === 0) startDow = 7; // Mon=1 .. Sun=7
+  const daysInMonth = new Date(state.year, state.month + 1, 0).getDate();
+
+  html += '<div class="day-grid">';
+  // Empty cells before first day
+  for (let i = 1; i < startDow; i++) {
+    html += '<div class="day-cell empty"></div>';
+  }
+  // Day cells
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = new Date(state.year, state.month, d);
+    const isPast = date < today;
+    const isToday = date.getTime() === today.getTime();
+    const isSelected = state.day === d;
+
+    // For end date, must be after start date
+    let isBeforeStart = false;
+    if (type === 'end' && wizardState.holidayStart) {
+      const startDate = new Date(wizardState.holidayStart);
+      if (date <= startDate) isBeforeStart = true;
+    }
+
+    const classes = ['day-cell'];
+    if (isPast || isBeforeStart) classes.push('past');
+    if (isToday) classes.push('today');
+    if (isSelected) classes.push('selected');
+
+    html += `<div class="${classes.join(' ')}" onclick="selectCalDay('${type}', ${d})">${d}</div>`;
+  }
+  html += '</div>';
+
+  container.innerHTML = html;
+
+  // Update continue button
+  updateCalContinue(type);
+}
+
+function setCalYear(type, year) {
+  calState[type].year = year;
+  calState[type].day = null;
+  renderCalendar(type);
+}
+
+function setCalMonth(type, month) {
+  calState[type].month = month;
+  calState[type].day = null;
+  renderCalendar(type);
+}
+
+function selectCalDay(type, day) {
+  calState[type].day = day;
+  const date = new Date(calState[type].year, calState[type].month, day);
+
+  if (type === 'start') {
+    wizardState.holidayStart = date.toISOString();
+    // Show warning if today
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const note = document.getElementById('calStartNote');
+    if (date.getTime() === today.getTime()) {
+      note.textContent = "Travelling today? If you've left you won't have cancellation cover for this trip.";
+      note.className = 'cal-note warning';
+    } else {
+      note.textContent = "Cancellation cover starts as soon as your policy has been issued.";
+      note.className = 'cal-note';
+    }
+  } else {
+    wizardState.holidayEnd = date.toISOString();
+  }
+
+  renderCalendar(type);
+}
+
+function updateCalContinue(type) {
+  const detailId = type === 'start' ? 'btnStartDate' : 'btnEndDate';
+  const detail = document.getElementById(detailId);
+  const dateStr = type === 'start' ? wizardState.holidayStart : wizardState.holidayEnd;
+
+  if (dateStr) {
+    const date = new Date(dateStr);
+    detail.textContent = formatDateLong(date);
+  } else {
+    detail.textContent = 'Select a date';
+  }
+}
+
+function formatDateLong(date) {
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const day = date.getDate();
+  const suffix = getDaySuffix(day);
+  return `${days[date.getDay()]} ${day}${suffix} ${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+function getDaySuffix(d) {
+  if (d > 3 && d < 21) return 'th';
+  switch (d % 10) {
+    case 1: return 'st';
+    case 2: return 'nd';
+    case 3: return 'rd';
+    default: return 'th';
+  }
+}
+
+// ===== SUMMARY =====
+function renderSummary() {
+  const container = document.getElementById('summaryContent');
+  const s = wizardState;
+
+  const destLabels = {
+    'europe-inc': 'Europe including Spain, Cyprus, Malta, Turkey, Greece',
+    'europe-exc': 'Europe excluding Spain, Cyprus, Malta, Turkey, Greece',
+    'aus-nz': 'Australia & New Zealand',
+    'worldwide-inc': 'Worldwide including USA, Canada, Mexico, Caribbean',
+    'worldwide-exc': 'Worldwide excluding USA, Canada, Mexico, Caribbean'
+  };
+
+  let html = '<div class="summary-section-title">Trip Details</div>';
+  html += summaryRow('Trip type', s.tripType === 'annual' ? 'Annual' : 'Single Trip');
+  html += summaryRow('Destination', destLabels[s.destination] || s.destination);
+  html += summaryRow('Cruise cover', s.cruise ? 'Yes' : 'No');
+  /* Winter sports & car hire excess — commented out for now
+  html += summaryRow('Winter sports', s.winterSports ? 'Yes' : 'No');
+  html += summaryRow('Car hire excess', s.carHireExcess ? 'Yes' : 'No');
+  */
+  html += summaryRow('Cancellation cover', s.cancellationCover >= 10001 ? '£10,000+' : '£' + Number(s.cancellationCover).toLocaleString());
+
+  if (s.holidayStart) {
+    html += summaryRow('Holiday starts', formatDateLong(new Date(s.holidayStart)));
+  }
+  if (s.holidayEnd && s.tripType === 'single') {
+    html += summaryRow('Holiday ends', formatDateLong(new Date(s.holidayEnd)));
+  }
+
+  html += summaryRow('Relationship', s.relationship ? s.relationship.charAt(0).toUpperCase() + s.relationship.slice(1) : '');
+
+  html += '<div class="summary-section-title">Travellers</div>';
+  s.travellers.forEach((t, i) => {
+    const dobDate = parseDob(t.dob);
+    const age = dobDate ? calcAge(dobDate) : '?';
+    html += summaryRow(`Traveller ${i + 1}`, `${t.title} ${t.firstName} ${t.lastName}, ${age}`);
+  });
+
+  html += '<div class="summary-section-title">Contact</div>';
+  html += summaryRow('Email', s.email || '-');
+
+  html += '<div class="summary-section-title">Medical</div>';
+  html += summaryRow('Surgery/treatment', medicalLabel(s.medical.surgeryTreatment));
+  html += summaryRow('Undiagnosed symptoms', medicalLabel(s.medical.undiagnosedSymptoms));
+  html += summaryRow('Listed conditions', medicalLabel(s.medical.listedConditions));
+  html += summaryRow('Recent conditions', medicalLabel(s.medical.recentConditions));
+
+  container.innerHTML = html;
+}
+
+function summaryRow(label, value) {
+  return `<div class="summary-row"><span class="summary-label">${label}</span><span class="summary-value">${value}</span></div>`;
+}
+
+function medicalLabel(val) {
+  if (val === true) return 'Yes';
+  if (val === false) return 'No';
+  return '-';
+}
+
+function submitQuote() {
+  const payload = {
+    ...wizardState,
+    timestamp: new Date().toISOString(),
+    sessionId: getSessionId()
+  };
+  console.log('INSURANCE_QUOTE_PAYLOAD', JSON.stringify(payload, null, 2));
+  alert('Quote submitted! Check the browser console for the full payload.');
+
+  // Save to history
+  saveToHistory(payload);
+}
+
+// ===== STATE PERSISTENCE =====
+function saveState() {
+  try {
+    localStorage.setItem('insuranceWizardState', JSON.stringify(wizardState));
+    localStorage.setItem('insuranceWizardStep', window.location.hash.slice(1));
+  } catch (e) { /* silent */ }
+}
+
+function restoreState() {
+  try {
+    const saved = localStorage.getItem('insuranceWizardState');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      Object.assign(wizardState, parsed);
+    }
+
+    // Show resume banner on landing
+    const step = localStorage.getItem('insuranceWizardStep');
+    if (step && step !== 'landing' && step !== '') {
+      savedResumeStep = step;
+      const banner = document.getElementById('resumeBanner');
+      const detail = document.getElementById('resumeDetail');
+      banner.classList.add('visible');
+      detail.textContent = 'Pick up where you left off';
+    }
+  } catch (e) { /* silent */ }
+}
+
+function resumeQuote() {
+  if (savedResumeStep) {
+    navigateTo(savedResumeStep);
+  }
+}
+
+function saveToHistory(payload) {
+  try {
+    const history = JSON.parse(localStorage.getItem('insuranceWizardHistory') || '[]');
+    history.unshift(payload);
+    if (history.length > 10) history.length = 10;
+    localStorage.setItem('insuranceWizardHistory', JSON.stringify(history));
+  } catch (e) { /* silent */ }
+}
+
+function getSessionId() {
+  let id = sessionStorage.getItem('insuranceWizardSession');
+  if (!id) {
+    id = 'iw-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+    sessionStorage.setItem('insuranceWizardSession', id);
+  }
+  return id;
+}
+
+// ===== PRE-FILL FROM EXISTING HX DATA =====
+function loadExistingData() {
+  try {
+    // Try to read customer name
+    const customerData = localStorage.getItem('customer');
+    if (customerData) {
+      const cust = JSON.parse(customerData);
+      if (cust.first_name) {
+        document.getElementById('greetingName').textContent = cust.first_name;
+        document.getElementById('greetingBanner').classList.add('visible');
+      }
+    }
+
+    // Try to read email from cookie
+    const emailCookie = getCookie('Email');
+    if (emailCookie) {
+      wizardState.email = decodeURIComponent(emailCookie);
+    }
+
+    // Try to read from reduxStore
+    const reduxData = localStorage.getItem('reduxStore');
+    if (reduxData) {
+      const redux = JSON.parse(reduxData);
+
+      // Traveller details
+      if (redux.tripDetails && redux.tripDetails.travellers) {
+        wizardState.travellers = redux.tripDetails.travellers.map(t => ({
+          title: t.title || '',
+          firstName: t.firstName || '',
+          lastName: t.lastName || '',
+          dob: t.dob || ''
+        }));
+        wizardState.travellerCount = wizardState.travellers.length;
+      }
+
+      // Medical answers
+      if (redux.tripDetails && redux.tripDetails.triggerQuestions) {
+        const tq = redux.tripDetails.triggerQuestions;
+        if (tq.medical !== undefined) wizardState.medical.surgeryTreatment = tq.medical;
+        if (tq.psychological !== undefined) wizardState.medical.recentConditions = tq.psychological;
+        if (tq.everSufferedFrom !== undefined) wizardState.medical.listedConditions = tq.everSufferedFrom;
+        if (tq.pastYearSufferedFrom !== undefined) wizardState.medical.undiagnosedSymptoms = tq.pastYearSufferedFrom;
+      }
+
+      // Cancellation cover
+      if (redux.tripDetails && redux.tripDetails.insurance && redux.tripDetails.insurance.cancellationCover) {
+        // Stored in pence in HX, convert to pounds
+        const coverPence = redux.tripDetails.insurance.cancellationCover;
+        wizardState.cancellationCover = coverPence / 100;
+      }
+
+      // Relationship
+      if (redux.tripDetails && redux.tripDetails.insurance && redux.tripDetails.insurance.relationshipType) {
+        const relMap = { '1': 'couple', '2': 'family', '3': 'group' };
+        wizardState.relationship = relMap[redux.tripDetails.insurance.relationshipType] || null;
+      }
+
+      // Email from profile
+      if (redux.user && redux.user.profile && redux.user.profile.email) {
+        wizardState.email = redux.user.profile.email;
+      }
+    }
+
+    // Try to read trip type from persist:client
+    const clientData = localStorage.getItem('persist:client');
+    if (clientData) {
+      const client = JSON.parse(clientData);
+      if (client.insurance) {
+        const ins = JSON.parse(client.insurance);
+        if (ins.tripType === 'S') wizardState.tripType = 'single';
+        if (ins.tripType === 'A') wizardState.tripType = 'annual';
+      }
+    }
+
+  } catch (e) {
+    console.log('Pre-fill data not available:', e.message);
+  }
+}
+
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+</script>
+
+</body>
+</html>
