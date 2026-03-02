@@ -1,0 +1,15 @@
+{
+  "name": "holiday-extras-insurance-wizard",
+  "version": "1.0.0",
+  "description": "Holiday Extras Travel Insurance Quote Wizard",
+  "main": "api.js",
+  "scripts": {
+    "start": "node api.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [],
+  "license": "UNLICENSED",
+  "private": true
+}

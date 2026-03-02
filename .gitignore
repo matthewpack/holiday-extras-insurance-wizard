@@ -1,0 +1,15 @@
+node_modules/
+.DS_Store
+.env
+.claude/
+
+# Backup/working files
+index-backup.html
+index_v1.html
+untitled*.txt
+output.txt
+my-summary.txt
+get_cookies_local_storage.txt
+
+# Screenshot PNGs
+\#*.png

@@ -30,7 +30,6 @@
       --grey-light: #e8e8ec;
       --grey-text: #999;
       --max-width: 420px;
-      --header-height: 64px;
       --progress-height: 4px;
     }
 
@@ -46,14 +45,34 @@
     /* ===== HEADER ===== */
     .header {
       background: var(--purple);
-      height: var(--header-height);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 12px 20px;
+      text-align: center;
       position: sticky;
       top: 0;
       z-index: 100;
+      /* relative so the absolute back button stays inside */
     }
+    .header-back {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 22px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      padding: 0;
+      opacity: 0.9;
+    }
+    .header-back:active { opacity: 0.6; }
+    .header-back.hidden { display: none; }
     .header-logo {
       font-size: 22px;
       font-weight: 300;
@@ -69,13 +88,21 @@
       font-style: italic;
       font-weight: 700;
     }
+    .header-sub {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--white);
+      opacity: 0.85;
+      margin-top: 2px;
+      letter-spacing: 0.3px;
+    }
 
     /* ===== PROGRESS BAR ===== */
     .progress-bar {
       height: var(--progress-height);
       background: var(--grey-light);
       position: sticky;
-      top: var(--header-height);
+      top: 0;
       z-index: 99;
     }
     .progress-fill {
@@ -89,10 +116,12 @@
     .step {
       display: none;
       padding: 24px 20px 120px;
-      animation: fadeIn 0.25s ease;
     }
     .step.active {
       display: block;
+    }
+    .step > *:not(.continue-btn) {
+      animation: fadeIn 0.25s ease;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(8px); }
@@ -442,12 +471,14 @@
       margin-bottom: 16px;
     }
     .form-field {
+      display: block;
       border: 2px solid var(--purple-border);
       border-radius: 12px;
       padding: 12px 16px;
       position: relative;
+      cursor: text;
     }
-    .form-field label {
+    .form-field .field-label {
       display: block;
       font-size: 12px;
       font-weight: 400;
@@ -464,7 +495,7 @@
       font-weight: 400;
       color: #1a1a2e;
       background: transparent;
-      padding: 0;
+      padding: 4px 0;
     }
     .form-field select {
       appearance: none;
@@ -483,6 +514,7 @@
     }
     .title-field {
       display: inline-block;
+      cursor: pointer;
     }
 
     /* ===== ELIGIBILITY ===== */
@@ -518,45 +550,6 @@
       color: #1a1a2e;
       line-height: 1.5;
       margin-bottom: 8px;
-    }
-
-    /* ===== ADDITIONAL COVER ===== */
-    .toggle-card {
-      border: 2px solid var(--purple-border);
-      border-radius: 12px;
-      padding: 18px 20px;
-      margin-bottom: 12px;
-      cursor: pointer;
-      background: var(--white);
-      transition: background 0.15s ease;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .toggle-card.selected {
-      background: var(--purple-light);
-      border-color: var(--purple);
-    }
-    .toggle-card:active {
-      transform: scale(0.98);
-    }
-    .toggle-indicator {
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      border: 2px solid var(--purple);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-left: 12px;
-      font-size: 14px;
-      color: var(--white);
-      transition: background 0.15s ease;
-    }
-    .toggle-card.selected .toggle-indicator {
-      background: var(--purple);
     }
 
     /* ===== SUMMARY ===== */
@@ -669,6 +662,82 @@
       margin-top: 4px;
     }
 
+    /* ===== RESULTS ===== */
+    .results-loading {
+      text-align: center;
+      padding: 40px 0;
+    }
+    .results-loading p {
+      margin-top: 16px;
+      font-size: 16px;
+      font-weight: 400;
+      color: #555;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--grey-light);
+      border-top-color: var(--purple);
+      border-radius: 50%;
+      margin: 0 auto;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .results-error {
+      background: #fff0f0;
+      border: 2px solid #d4380d;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      color: #d4380d;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .results-success {
+      animation: fadeIn 0.3s ease;
+    }
+    .back-btn {
+      display: block;
+      width: 100%;
+      background: none;
+      border: 2px solid var(--purple);
+      border-radius: 12px;
+      color: var(--purple);
+      padding: 14px;
+      font-size: 15px;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 16px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .back-btn:active { opacity: 0.8; }
+
+    /* ===== FORM VALIDATION ===== */
+    .form-field.error {
+      border-color: #d4380d;
+      animation: shake 0.3s ease;
+    }
+    .form-field.error .field-label {
+      color: #d4380d;
+    }
+    .validation-msg {
+      font-size: 13px;
+      font-weight: 400;
+      color: #d4380d;
+      margin-top: 8px;
+      margin-bottom: 4px;
+      display: none;
+    }
+    .validation-msg.visible { display: block; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
     /* ===== UTILITIES ===== */
     .hidden { display: none !important; }
     .mt-8 { margin-top: 8px; }
@@ -680,8 +749,10 @@
 
 <div class="app">
   <!-- HEADER -->
-  <header class="header">
+  <header class="header" id="mainHeader">
+    <button class="header-back hidden" id="btnBack" onclick="goBack()">&#8249;</button>
     <div class="header-logo"><span class="holiday">holiday</span><span class="extras">extras</span></div>
+    <div class="header-sub">Travel Insurance &mdash; We've got your back</div>
   </header>
 
   <!-- PROGRESS BAR -->
@@ -717,7 +788,7 @@
       </div>
     </div>
 
-    <p class="step-description mt-16 mb-24">Annual cover renews automatically each year – we'll remind you before it does, and you can opt out at any time.</p>
+    <p class="step-description mt-16 mb-24">Annual cover renews automatically each year &ndash; we'll remind you before it does, and you can opt out at any time.</p>
 
     <div class="card card-large" onclick="selectTripType('single')">
       <div class="card-content">
@@ -772,11 +843,11 @@
 
     <div class="cards-row">
       <div class="card-yn" onclick="selectCruise(false)">
-        <div class="yn-title">No <span class="yn-chevron">›</span></div>
+        <div class="yn-title">No <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Cruise cover not required</div>
       </div>
       <div class="card-yn" onclick="selectCruise(true)">
-        <div class="yn-title">Yes <span class="yn-chevron">›</span></div>
+        <div class="yn-title">Yes <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Add Cruise Cover</div>
       </div>
     </div>
@@ -784,55 +855,25 @@
     <p class="step-description">From missed ports to cabin confinement and itinerary changes, our cruise cover helps with the extras.</p>
   </section>
 
-  <!-- ===== STEP 4: ADDITIONAL COVER (commented out — coming back to this later) =====
-  <section class="step" id="step-additional-cover">
-    <h2 class="step-title">Additional cover</h2>
-    <p class="step-description">Select any extras you'd like to add to your policy.</p>
-
-    <div class="toggle-card" id="toggleWinterSports" onclick="toggleAdditional('winterSports')">
-      <div class="card-content">
-        <div class="card-title">Winter Sports</div>
-        <div class="card-subtitle">Cover for skiing, snowboarding and other winter sports activities.</div>
-      </div>
-      <div class="toggle-indicator" id="indicatorWinterSports">✓</div>
-    </div>
-
-    <div class="toggle-card" id="toggleCarHire" onclick="toggleAdditional('carHireExcess')">
-      <div class="card-content">
-        <div class="card-title">Car Hire Excess</div>
-        <div class="card-subtitle">Cover for the excess charged if your hire car is damaged or stolen.</div>
-      </div>
-      <div class="toggle-indicator" id="indicatorCarHire">✓</div>
-    </div>
-
-    <button class="continue-btn" onclick="confirmAdditionalCover()">
-      <div class="btn-text">
-        <span class="btn-label">Continue</span>
-      </div>
-      <span class="btn-chevron">›</span>
-    </button>
-  </section>
-  -->
-
-  <!-- ===== STEP 5: CANCELLATION COVER ===== -->
+  <!-- ===== STEP 4: CANCELLATION COVER ===== -->
   <section class="step" id="step-cancellation">
     <h2 class="step-title">Cancellation cover</h2>
 
-    <button class="amount-btn" onclick="selectCancellation(500)"><strong>£500</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(1000)"><strong>£1,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(2500)"><strong>£2,500</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(5000)"><strong>£5,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(6000)"><strong>£6,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(7000)"><strong>£7,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(8000)"><strong>£8,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(9000)"><strong>£9,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(10000)"><strong>£10,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(10001)"><strong>£10,000+</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(500)"><strong>&pound;500</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(1000)"><strong>&pound;1,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(2500)"><strong>&pound;2,500</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(5000)"><strong>&pound;5,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(6000)"><strong>&pound;6,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(7000)"><strong>&pound;7,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(8000)"><strong>&pound;8,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(9000)"><strong>&pound;9,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(10000)"><strong>&pound;10,000</strong> per person</button>
+    <button class="amount-btn" onclick="selectCancellation(10001)"><strong>&pound;10,000+</strong> per person</button>
   </section>
 
-  <!-- ===== STEP 6: HOLIDAY START ===== -->
+  <!-- ===== STEP 5: HOLIDAY START ===== -->
   <section class="step" id="step-holiday-start">
-    <h2 class="step-title">Holiday starts</h2>
+    <h2 class="step-title" id="holidayStartTitle">Holiday starts</h2>
     <div class="calendar" id="calStart"></div>
     <div id="calStartNote" class="cal-note"></div>
     <button class="continue-btn" id="btnStartContinue" onclick="confirmHolidayStart()">
@@ -840,11 +881,11 @@
         <span class="btn-label">Continue</span>
         <span class="btn-detail" id="btnStartDate"></span>
       </div>
-      <span class="btn-chevron">›</span>
+      <span class="btn-chevron">&rsaquo;</span>
     </button>
   </section>
 
-  <!-- ===== STEP 7: HOLIDAY END ===== -->
+  <!-- ===== STEP 6: HOLIDAY END ===== -->
   <section class="step" id="step-holiday-end">
     <h2 class="step-title">Holiday ends</h2>
     <div class="calendar" id="calEnd"></div>
@@ -853,11 +894,11 @@
         <span class="btn-label">Continue</span>
         <span class="btn-detail" id="btnEndDate"></span>
       </div>
-      <span class="btn-chevron">›</span>
+      <span class="btn-chevron">&rsaquo;</span>
     </button>
   </section>
 
-  <!-- ===== STEP 8: TRAVELLERS ===== -->
+  <!-- ===== STEP 7: TRAVELLERS ===== -->
   <section class="step" id="step-travellers">
     <h2 class="step-title">Travellers</h2>
     <div class="number-grid">
@@ -873,7 +914,7 @@
     </div>
   </section>
 
-  <!-- ===== STEP 9: RELATIONSHIP ===== -->
+  <!-- ===== STEP 8: RELATIONSHIP ===== -->
   <section class="step" id="step-relationship">
     <h2 class="step-title">Relationship</h2>
 
@@ -882,7 +923,7 @@
         <div class="card-title">Couple</div>
         <div class="card-subtitle">Two adults living together.</div>
       </div>
-      <span class="card-chevron">›</span>
+      <span class="card-chevron">&rsaquo;</span>
     </div>
 
     <div class="card" onclick="selectRelationship('family')">
@@ -890,7 +931,7 @@
         <div class="card-title">Family</div>
         <div class="card-subtitle">Parents and up to five children under 18 in the same household.</div>
       </div>
-      <span class="card-chevron">›</span>
+      <span class="card-chevron">&rsaquo;</span>
     </div>
 
     <div class="card" onclick="selectRelationship('group')">
@@ -898,17 +939,17 @@
         <div class="card-title">Group</div>
         <div class="card-subtitle">Anyone travelling together.</div>
       </div>
-      <span class="card-chevron">›</span>
+      <span class="card-chevron">&rsaquo;</span>
     </div>
   </section>
 
-  <!-- ===== STEP 10: TRAVELLER DETAILS (dynamic) ===== -->
+  <!-- ===== STEP 9: TRAVELLER DETAILS (dynamic) ===== -->
   <section class="step" id="step-traveller">
     <h2 class="step-title" id="travellerHeading">Traveller</h2>
 
     <div class="form-group">
-      <div class="form-field title-field">
-        <label>Title</label>
+      <label class="form-field title-field">
+        <span class="field-label">Title</span>
         <select id="travellerTitle" onchange="updateTravellerContinue()">
           <option value="">Select</option>
           <option value="Mr">Mr</option>
@@ -918,49 +959,51 @@
           <option value="Mx">Mx</option>
           <option value="Dr">Dr</option>
         </select>
-        <span class="select-arrow">▾</span>
-      </div>
+        <span class="select-arrow">&#9662;</span>
+      </label>
     </div>
 
     <div class="form-group">
-      <div class="form-field">
-        <label>First Name</label>
+      <label class="form-field">
+        <span class="field-label">First Name</span>
         <input type="text" id="travellerFirstName" oninput="updateTravellerContinue()" autocomplete="given-name">
-      </div>
+      </label>
     </div>
 
     <div class="form-group">
-      <div class="form-field">
-        <label>Last Name</label>
+      <label class="form-field">
+        <span class="field-label">Last Name</span>
         <input type="text" id="travellerLastName" oninput="updateTravellerContinue()" autocomplete="family-name">
-      </div>
+      </label>
     </div>
 
     <div class="form-group">
-      <div class="form-field">
-        <label>Date of birth</label>
+      <label class="form-field">
+        <span class="field-label">Date of birth</span>
         <input type="text" id="travellerDob" placeholder="DD / MM / YYYY" oninput="formatDob(this); updateTravellerContinue()" inputmode="numeric" maxlength="14">
-      </div>
+      </label>
     </div>
+
+    <p class="validation-msg" id="travellerValidation"></p>
 
     <button class="continue-btn" id="btnTravellerContinue" onclick="confirmTraveller()">
       <div class="btn-text">
         <span class="btn-label">Continue</span>
         <span class="btn-detail" id="btnTravellerDetail"></span>
       </div>
-      <span class="btn-chevron">›</span>
+      <span class="btn-chevron">&rsaquo;</span>
     </button>
   </section>
 
-  <!-- ===== STEP 11: EMAIL ===== -->
+  <!-- ===== STEP 10: EMAIL ===== -->
   <section class="step" id="step-email">
     <h2 class="step-title">Send me a copy of my quote to</h2>
 
     <div class="form-group">
-      <div class="form-field">
-        <label>Email</label>
+      <label class="form-field">
+        <span class="field-label">Email</span>
         <input type="email" id="emailInput" oninput="updateEmailContinue()" autocomplete="email">
-      </div>
+      </label>
     </div>
 
     <button class="continue-btn" id="btnEmailContinue" onclick="confirmEmail()">
@@ -968,11 +1011,11 @@
         <span class="btn-label">Continue</span>
         <span class="btn-detail" id="btnEmailDetail"></span>
       </div>
-      <span class="btn-chevron">›</span>
+      <span class="btn-chevron">&rsaquo;</span>
     </button>
   </section>
 
-  <!-- ===== STEP 12: ELIGIBILITY ===== -->
+  <!-- ===== STEP 11: ELIGIBILITY ===== -->
   <section class="step" id="step-eligibility">
     <h2 class="step-title">Eligibility Criteria</h2>
 
@@ -997,11 +1040,11 @@
         <span class="btn-label">Agree and continue</span>
         <span class="btn-detail">I have read the above criteria</span>
       </div>
-      <span class="btn-chevron">›</span>
+      <span class="btn-chevron">&rsaquo;</span>
     </button>
   </section>
 
-  <!-- ===== STEP 13: MEDICAL Q1 ===== -->
+  <!-- ===== STEP 12: MEDICAL Q1 ===== -->
   <section class="step" id="step-medical-1">
     <p class="step-label">Medical question 1 of 4</p>
     <h2 class="step-title">Is anyone travelling</h2>
@@ -1015,17 +1058,17 @@
 
     <div class="cards-row mt-16">
       <div class="card-yn" onclick="answerMedical('surgeryTreatment', false)">
-        <div class="yn-title">No <span class="yn-chevron">›</span></div>
+        <div class="yn-title">No <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">None of these apply</div>
       </div>
       <div class="card-yn" onclick="answerMedical('surgeryTreatment', true)">
-        <div class="yn-title">Yes <span class="yn-chevron">›</span></div>
+        <div class="yn-title">Yes <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Applies to someone</div>
       </div>
     </div>
   </section>
 
-  <!-- ===== STEP 14: MEDICAL Q2 ===== -->
+  <!-- ===== STEP 13: MEDICAL Q2 ===== -->
   <section class="step" id="step-medical-2">
     <p class="step-label">Medical question 2 of 4</p>
     <h2 class="step-title">Is anyone travelling</h2>
@@ -1036,17 +1079,17 @@
 
     <div class="cards-row mt-16">
       <div class="card-yn" onclick="answerMedical('undiagnosedSymptoms', false)">
-        <div class="yn-title">No <span class="yn-chevron">›</span></div>
+        <div class="yn-title">No <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Doesn't apply to anyone</div>
       </div>
       <div class="card-yn" onclick="answerMedical('undiagnosedSymptoms', true)">
-        <div class="yn-title">Yes <span class="yn-chevron">›</span></div>
+        <div class="yn-title">Yes <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Applies to someone</div>
       </div>
     </div>
   </section>
 
-  <!-- ===== STEP 15: MEDICAL Q3 ===== -->
+  <!-- ===== STEP 14: MEDICAL Q3 ===== -->
   <section class="step" id="step-medical-3">
     <p class="step-label">Medical question 3 of 4</p>
     <h2 class="step-title">Has any traveller ever had any of the following conditions?</h2>
@@ -1070,17 +1113,17 @@
 
     <div class="cards-row mt-16">
       <div class="card-yn" onclick="answerMedical('listedConditions', false)">
-        <div class="yn-title">No <span class="yn-chevron">›</span></div>
+        <div class="yn-title">No <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">None of these apply</div>
       </div>
       <div class="card-yn" onclick="answerMedical('listedConditions', true)">
-        <div class="yn-title">Yes <span class="yn-chevron">›</span></div>
+        <div class="yn-title">Yes <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Applies to someone</div>
       </div>
     </div>
   </section>
 
-  <!-- ===== STEP 16: MEDICAL Q4 ===== -->
+  <!-- ===== STEP 15: MEDICAL Q4 ===== -->
   <section class="step" id="step-medical-4">
     <p class="step-label">Medical question 4 of 4</p>
     <h2 class="step-title">Recent physical or psychological conditions</h2>
@@ -1091,17 +1134,17 @@
 
     <div class="cards-row mt-16">
       <div class="card-yn" onclick="answerMedical('recentConditions', false)">
-        <div class="yn-title">No <span class="yn-chevron">›</span></div>
+        <div class="yn-title">No <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">None of these apply</div>
       </div>
       <div class="card-yn" onclick="answerMedical('recentConditions', true)">
-        <div class="yn-title">Yes <span class="yn-chevron">›</span></div>
+        <div class="yn-title">Yes <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Applies to someone</div>
       </div>
     </div>
   </section>
 
-  <!-- ===== STEP 17: SUMMARY ===== -->
+  <!-- ===== STEP 16: SUMMARY ===== -->
   <section class="step" id="step-summary">
     <h2 class="step-title">Your quote summary</h2>
     <div id="summaryContent"></div>
@@ -1110,8 +1153,40 @@
         <span class="btn-label">Get my quote</span>
         <span class="btn-detail">Submit to see your price</span>
       </div>
-      <span class="btn-chevron">›</span>
+      <span class="btn-chevron">&rsaquo;</span>
     </button>
+  </section>
+
+  <!-- ===== STEP 17: RESULTS (API response) ===== -->
+  <section class="step" id="step-results">
+    <div id="resultsLoading" class="results-loading">
+      <div class="spinner"></div>
+      <p>Submitting your details&hellip;</p>
+    </div>
+    <div id="resultsError" class="results-error" style="display:none;"></div>
+    <div id="resultsSuccess" class="results-success" style="display:none;">
+      <h2 class="step-title">Quote submitted</h2>
+      <div style="background:var(--purple-light); border-radius:12px; padding:20px; margin-bottom:20px;">
+        <p style="font-size:16px; font-weight:600; color:var(--purple); margin-bottom:8px;">
+          Your details have been sent
+        </p>
+        <p style="font-size:14px; font-weight:300; color:#555; line-height:1.5;">
+          Click below to continue your buying journey.
+        </p>
+      </div>
+      <a id="redirectLink" href="#" target="_blank" rel="noopener" style="display:block; text-decoration:none; margin-bottom:12px;">
+        <div style="background:var(--purple); color:var(--white); border-radius:12px; padding:18px 24px; display:flex; align-items:center; justify-content:space-between;">
+          <div>
+            <span style="font-size:18px; font-weight:700; display:block;">Continue to quotes</span>
+            <span id="redirectUrl" style="font-size:13px; font-weight:300; opacity:0.85; display:block; margin-top:2px;"></span>
+          </div>
+          <span style="font-size:24px;">&rsaquo;</span>
+        </div>
+      </a>
+      <div class="summary-section-title" style="margin-top:24px;">API Payload</div>
+      <pre id="payloadDebug" style="background:#f5f5f7; border:1px solid var(--grey-light); border-radius:8px; padding:12px; font-family:monospace; font-size:12px; white-space:pre-wrap; word-break:break-all; max-height:400px; overflow-y:auto; color:#333; line-height:1.5;"></pre>
+      <button class="back-btn" onclick="navigateTo('summary')">&larr; Back to summary</button>
+    </div>
   </section>
 
 </div><!-- /app -->
@@ -1140,28 +1215,22 @@ let wizardState = {
   }
 };
 
-// Current traveller being edited (0-indexed)
 let currentTravellerIndex = 0;
-
-// Saved step for resume (captured before showStep overwrites it)
 let savedResumeStep = null;
 
-// Ordered step list (dynamic — holiday-end may be removed)
+// Step order (dynamic based on selections)
 const BASE_STEPS = [
-  'landing', 'trip-type', 'destination', 'cruise',
-  /* 'additional-cover', — coming back to this later */
+  'trip-type', 'destination', 'cruise',
   'cancellation', 'holiday-start', 'holiday-end', 'travellers',
   'relationship', 'traveller', 'email', 'eligibility',
-  'medical-1', 'medical-2', 'medical-3', 'medical-4', 'summary'
+  'medical-1', 'medical-2', 'medical-3', 'medical-4', 'summary', 'results'
 ];
 
 function getSteps() {
   let steps = [...BASE_STEPS];
-  // Remove holiday-end for annual trips
   if (wizardState.tripType === 'annual') {
     steps = steps.filter(s => s !== 'holiday-end');
   }
-  // Remove relationship for solo travellers
   if (wizardState.travellerCount === 1) {
     steps = steps.filter(s => s !== 'relationship');
   }
@@ -1170,9 +1239,8 @@ function getSteps() {
 
 function getStepIndex(hash) {
   const steps = getSteps();
-  // Handle traveller-N hashes
   if (hash && hash.startsWith('traveller-')) return steps.indexOf('traveller');
-  return steps.indexOf(hash || 'landing');
+  return steps.indexOf(hash || 'trip-type');
 }
 
 function getProgress(hash) {
@@ -1187,13 +1255,48 @@ function navigateTo(hash) {
   window.location.hash = hash;
 }
 
-function showStep(hash) {
-  if (!hash || hash === '') hash = 'landing';
+function goBack() {
+  const steps = getSteps();
+  const currentHash = window.location.hash.slice(1) || 'trip-type';
 
-  // Hide all steps
+  // Handle multi-traveller: go back through traveller-N pages
+  if (currentHash.startsWith('traveller-')) {
+    const num = parseInt(currentHash.split('-')[1]);
+    if (num > 1) {
+      navigateTo('traveller-' + (num - 1));
+      return;
+    }
+    // traveller-1: go back to relationship or travellers step
+    const prevIdx = steps.indexOf('traveller') - 1;
+    if (prevIdx >= 0) navigateTo(steps[prevIdx]);
+    return;
+  }
+
+  const currentIdx = steps.indexOf(currentHash);
+  if (currentIdx > 0) {
+    const prevStep = steps[currentIdx - 1];
+    if (prevStep === 'traveller') {
+      // Go to the last traveller form page
+      navigateTo('traveller-' + (wizardState.travellerCount || 1));
+    } else {
+      navigateTo(prevStep);
+    }
+  }
+}
+
+function syncProgressBarTop() {
+  const header = document.getElementById('mainHeader');
+  const bar = document.querySelector('.progress-bar');
+  if (header && bar) {
+    bar.style.top = header.offsetHeight + 'px';
+  }
+}
+
+function showStep(hash) {
+  if (!hash || hash === '' || hash === 'landing') hash = 'trip-type';
+
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
 
-  // Determine which section to show
   let sectionId;
   if (hash.startsWith('traveller-')) {
     sectionId = 'step-traveller';
@@ -1205,21 +1308,25 @@ function showStep(hash) {
   }
 
   const section = document.getElementById(sectionId);
-  if (section) {
-    section.classList.add('active');
+  if (section) section.classList.add('active');
+
+  document.getElementById('progressFill').style.width = getProgress(hash) + '%';
+  syncProgressBarTop();
+
+  // Show / hide back button (hidden on first step and results)
+  const btnBack = document.getElementById('btnBack');
+  if (btnBack) {
+    const isFirst = (hash === 'trip-type');
+    const isResults = (hash === 'results');
+    btnBack.classList.toggle('hidden', isFirst || isResults);
   }
 
-  // Update progress
-  document.getElementById('progressFill').style.width = getProgress(hash) + '%';
-
-  // Scroll to top
   window.scrollTo(0, 0);
-
-  // Save state
   saveState();
 
-  // Step-specific setup — reset calendar init so it re-syncs from wizardState
   if (hash === 'holiday-start') {
+    const isAnnual = wizardState.tripType === 'annual';
+    document.getElementById('holidayStartTitle').textContent = isAnnual ? 'Cover to start' : 'Holiday starts';
     calState.start = { year: null, month: null, day: null, initialized: false };
     renderCalendar('start');
   }
@@ -1229,21 +1336,21 @@ function showStep(hash) {
   }
   if (hash === 'email') setupEmailForm();
   if (hash === 'summary') renderSummary();
-  if (hash === 'additional-cover') setupAdditionalCover();
 }
 
 window.addEventListener('hashchange', () => {
-  const hash = window.location.hash.slice(1);
-  showStep(hash);
+  showStep(window.location.hash.slice(1));
 });
 
-// Initial load
 window.addEventListener('DOMContentLoaded', () => {
-  try { loadExistingData(); } catch(e) { console.warn('loadExistingData error:', e); }
-  try { restoreState(); } catch(e) { console.warn('restoreState error:', e); }
-  const hash = window.location.hash.slice(1);
-  showStep(hash || 'landing');
+  try { restoreState(); } catch (e) { console.warn('restoreState error:', e); }
+  syncProgressBarTop();
+  showStep(window.location.hash.slice(1) || 'trip-type');
+
+  // Form fields use native <label> wrapping — clicking anywhere focuses the control
 });
+
+window.addEventListener('resize', syncProgressBarTop);
 
 // ===== STEP HANDLERS =====
 
@@ -1262,31 +1369,14 @@ function selectCruise(val) {
   navigateTo('cancellation');
 }
 
-function setupAdditionalCover() {
-  // Commented out — coming back to this later
-  // document.getElementById('toggleWinterSports').classList.toggle('selected', wizardState.winterSports);
-  // document.getElementById('toggleCarHire').classList.toggle('selected', wizardState.carHireExcess);
-}
-
-function toggleAdditional(key) {
-  wizardState[key] = !wizardState[key];
-  setupAdditionalCover();
-}
-
-function confirmAdditionalCover() {
-  navigateTo('cancellation');
-}
-
 function selectCancellation(amount) {
   wizardState.cancellationCover = amount;
   navigateTo('holiday-start');
 }
 
 function confirmHolidayStart() {
-  // Reset end date to start + 7 so the end picker defaults fresh
   wizardState.holidayEnd = null;
   calState.end = { year: null, month: null, day: null, initialized: false };
-
   if (wizardState.tripType === 'annual') {
     navigateTo('travellers');
   } else {
@@ -1300,14 +1390,11 @@ function confirmHolidayEnd() {
 
 function selectTravellers(count) {
   wizardState.travellerCount = count;
-  // Initialize traveller slots
   while (wizardState.travellers.length < count) {
     wizardState.travellers.push({ title: '', firstName: '', lastName: '', dob: '' });
   }
   wizardState.travellers.length = count;
-
   if (count === 1) {
-    // Solo traveller — skip relationship, not relevant
     wizardState.relationship = null;
     navigateTo('traveller-1');
   } else {
@@ -1320,18 +1407,19 @@ function selectRelationship(rel) {
   navigateTo('traveller-1');
 }
 
+// ===== TRAVELLER FORM =====
+
 function setupTravellerForm() {
   const idx = currentTravellerIndex;
   const total = wizardState.travellerCount;
-  const heading = document.getElementById('travellerHeading');
-  heading.textContent = total > 1 ? `Traveller ${idx + 1} of ${total}` : 'Traveller';
+  document.getElementById('travellerHeading').textContent =
+    total > 1 ? `Traveller ${idx + 1} of ${total}` : 'Traveller';
 
   const t = wizardState.travellers[idx] || {};
   document.getElementById('travellerTitle').value = t.title || '';
   document.getElementById('travellerFirstName').value = t.firstName || '';
   document.getElementById('travellerLastName').value = t.lastName || '';
   document.getElementById('travellerDob').value = t.dob || '';
-
   updateTravellerContinue();
 }
 
@@ -1374,8 +1462,7 @@ function updateTravellerContinue() {
   const complete = title && first && last && dobDate;
 
   if (complete) {
-    const age = calcAge(dobDate);
-    detail.textContent = `${title} ${first} ${last}, ${age}`;
+    detail.textContent = `${title} ${first} ${last}, ${calcAge(dobDate)}`;
   } else if (first || last) {
     detail.textContent = [title, first, last].filter(Boolean).join(' ');
   } else {
@@ -1384,14 +1471,61 @@ function updateTravellerContinue() {
 }
 
 function confirmTraveller() {
+  const titleEl = document.getElementById('travellerTitle');
+  const firstEl = document.getElementById('travellerFirstName');
+  const lastEl = document.getElementById('travellerLastName');
+  const dobEl = document.getElementById('travellerDob');
+  const msgEl = document.getElementById('travellerValidation');
+
+  const title = titleEl.value;
+  const firstName = firstEl.value.trim();
+  const lastName = lastEl.value.trim();
+  const dobStr = dobEl.value;
+  const dobDate = parseDob(dobStr);
+
+  // Clear previous errors
+  document.querySelectorAll('#step-traveller .form-field').forEach(f => f.classList.remove('error'));
+  msgEl.classList.remove('visible');
+  msgEl.textContent = '';
+
+  // Validate
+  let errorMsg = '';
+  if (!title) {
+    titleEl.closest('.form-field').classList.add('error');
+    errorMsg = 'Please select a title';
+  } else if (!firstName) {
+    firstEl.closest('.form-field').classList.add('error');
+    errorMsg = 'Please enter a first name';
+  } else if (!lastName) {
+    lastEl.closest('.form-field').classList.add('error');
+    errorMsg = 'Please enter a last name';
+  } else if (!dobDate) {
+    dobEl.closest('.form-field').classList.add('error');
+    errorMsg = 'Please enter a valid date of birth (DD / MM / YYYY)';
+  } else {
+    const today = new Date();
+    if (dobDate > today) {
+      dobEl.closest('.form-field').classList.add('error');
+      errorMsg = 'Date of birth cannot be in the future';
+    } else if (calcAge(dobDate) > 120) {
+      dobEl.closest('.form-field').classList.add('error');
+      errorMsg = 'Please check the date of birth';
+    }
+  }
+
+  if (errorMsg) {
+    msgEl.textContent = errorMsg;
+    msgEl.classList.add('visible');
+    return;
+  }
+
   const idx = currentTravellerIndex;
   wizardState.travellers[idx] = {
-    title: document.getElementById('travellerTitle').value,
-    firstName: document.getElementById('travellerFirstName').value.trim(),
-    lastName: document.getElementById('travellerLastName').value.trim(),
-    dob: document.getElementById('travellerDob').value
+    title: title,
+    firstName: firstName,
+    lastName: lastName,
+    dob: dobStr
   };
-
   if (idx + 1 < wizardState.travellerCount) {
     navigateTo('traveller-' + (idx + 2));
   } else {
@@ -1399,23 +1533,18 @@ function confirmTraveller() {
   }
 }
 
+// ===== EMAIL =====
+
 function setupEmailForm() {
   const input = document.getElementById('emailInput');
-  if (!input.value && wizardState.email) {
-    input.value = wizardState.email;
-  }
+  if (!input.value && wizardState.email) input.value = wizardState.email;
   updateEmailContinue();
 }
 
 function updateEmailContinue() {
   const email = document.getElementById('emailInput').value.trim();
   const detail = document.getElementById('btnEmailDetail');
-
-  if (email && email.includes('@')) {
-    detail.textContent = 'Email ' + email;
-  } else {
-    detail.textContent = 'Skip or enter your email';
-  }
+  detail.textContent = (email && email.includes('@')) ? 'Email ' + email : 'Skip or enter your email';
 }
 
 function confirmEmail() {
@@ -1424,6 +1553,8 @@ function confirmEmail() {
   navigateTo('eligibility');
 }
 
+// ===== ELIGIBILITY & MEDICAL =====
+
 function agreeEligibility() {
   wizardState.eligibilityAgreed = true;
   navigateTo('medical-1');
@@ -1431,9 +1562,9 @@ function agreeEligibility() {
 
 function answerMedical(key, val) {
   wizardState.medical[key] = val;
-  const medicalOrder = ['surgeryTreatment', 'undiagnosedSymptoms', 'listedConditions', 'recentConditions'];
-  const idx = medicalOrder.indexOf(key);
-  if (idx < medicalOrder.length - 1) {
+  const order = ['surgeryTreatment', 'undiagnosedSymptoms', 'listedConditions', 'recentConditions'];
+  const idx = order.indexOf(key);
+  if (idx < order.length - 1) {
     navigateTo('medical-' + (idx + 2));
   } else {
     navigateTo('summary');
@@ -1441,6 +1572,7 @@ function answerMedical(key, val) {
 }
 
 // ===== CALENDAR =====
+
 let calState = {
   start: { year: null, month: null, day: null, initialized: false },
   end:   { year: null, month: null, day: null, initialized: false }
@@ -1452,21 +1584,31 @@ function renderCalendar(type) {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const state = calState[type];
 
-  // --- First-time setup: defaults + sync from wizardState ---
   if (!state.initialized) {
     state.initialized = true;
 
     if (type === 'start') {
-      // Default start = today
       if (!wizardState.holidayStart) {
         wizardState.holidayStart = today.toISOString();
-        const note = document.getElementById('calStartNote');
-        if (note) {
-          note.textContent = "Travelling today? If you've left you won't have cancellation cover for this trip.";
+      }
+      // Always show the note for the current default/selected date
+      const startDate = new Date(wizardState.holidayStart);
+      const isAnnual = wizardState.tripType === 'annual';
+      const note = document.getElementById('calStartNote');
+      if (note) {
+        const isToday = startDate.getTime() === today.getTime();
+        if (isToday) {
+          note.textContent = isAnnual
+            ? "Starting today? Cancellation cover will start from this date."
+            : "Travelling today? If you've left you won't have cancellation cover for this trip.";
           note.className = 'cal-note warning';
+        } else {
+          note.textContent = isAnnual
+            ? "Cancellation cover will start from this date."
+            : "Cancellation cover starts as soon as your policy has been issued.";
+          note.className = 'cal-note';
         }
       }
-      // Sync calendar to stored start date
       const d = new Date(wizardState.holidayStart);
       state.year = d.getFullYear();
       state.month = d.getMonth();
@@ -1474,14 +1616,12 @@ function renderCalendar(type) {
     }
 
     if (type === 'end') {
-      // Default end = start + 7 days
       if (!wizardState.holidayEnd && wizardState.holidayStart) {
         const startDate = new Date(wizardState.holidayStart);
         const defaultEnd = new Date(startDate);
         defaultEnd.setDate(defaultEnd.getDate() + 7);
         wizardState.holidayEnd = defaultEnd.toISOString();
       }
-      // Sync calendar to stored end date
       if (wizardState.holidayEnd) {
         const d = new Date(wizardState.holidayEnd);
         state.year = d.getFullYear();
@@ -1491,7 +1631,6 @@ function renderCalendar(type) {
     }
   }
 
-  // Fallbacks if still unset
   if (!state.year) state.year = now.getFullYear();
   if (state.month === null) state.month = now.getMonth();
 
@@ -1499,14 +1638,12 @@ function renderCalendar(type) {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-  // Build year toggle
   let html = '<div class="year-toggle">';
   years.forEach(y => {
     html += `<button class="year-btn ${state.year === y ? 'active' : ''}" onclick="setCalYear('${type}', ${y})">${y}</button>`;
   });
   html += '</div>';
 
-  // Build month grid
   html += '<div class="month-grid">';
   months.forEach((m, i) => {
     const isPast = state.year === now.getFullYear() && i < now.getMonth();
@@ -1514,33 +1651,27 @@ function renderCalendar(type) {
   });
   html += '</div>';
 
-  // Calendar title
-  html += `<div class="cal-header">${months[state.month]} '${String(state.year).slice(2)}</div>`;
+  // cal-header removed to save vertical space on mobile
 
-  // Day labels
   html += '<div class="day-labels">';
   dayNames.forEach(d => { html += `<div class="day-label">${d}</div>`; });
   html += '</div>';
 
-  // Day grid
   const firstDay = new Date(state.year, state.month, 1);
   let startDow = firstDay.getDay();
-  if (startDow === 0) startDow = 7; // Mon=1 .. Sun=7
+  if (startDow === 0) startDow = 7;
   const daysInMonth = new Date(state.year, state.month + 1, 0).getDate();
 
   html += '<div class="day-grid">';
-  // Empty cells before first day
   for (let i = 1; i < startDow; i++) {
     html += '<div class="day-cell empty"></div>';
   }
-  // Day cells
   for (let d = 1; d <= daysInMonth; d++) {
     const date = new Date(state.year, state.month, d);
     const isPast = date < today;
     const isToday = date.getTime() === today.getTime();
     const isSelected = state.day === d;
 
-    // For end date, must be after start date
     let isBeforeStart = false;
     if (type === 'end' && wizardState.holidayStart) {
       const startDate = new Date(wizardState.holidayStart);
@@ -1557,8 +1688,6 @@ function renderCalendar(type) {
   html += '</div>';
 
   container.innerHTML = html;
-
-  // Update continue button
   updateCalContinue(type);
 }
 
@@ -1580,15 +1709,19 @@ function selectCalDay(type, day) {
 
   if (type === 'start') {
     wizardState.holidayStart = date.toISOString();
-    // Show warning if today
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const note = document.getElementById('calStartNote');
+    const isAnnual = wizardState.tripType === 'annual';
     if (date.getTime() === today.getTime()) {
-      note.textContent = "Travelling today? If you've left you won't have cancellation cover for this trip.";
+      note.textContent = isAnnual
+        ? "Starting today? Cancellation cover will start from this date."
+        : "Travelling today? If you've left you won't have cancellation cover for this trip.";
       note.className = 'cal-note warning';
     } else {
-      note.textContent = "Cancellation cover starts as soon as your policy has been issued.";
+      note.textContent = isAnnual
+        ? "Cancellation cover will start from this date."
+        : "Cancellation cover starts as soon as your policy has been issued.";
       note.className = 'cal-note';
     }
   } else {
@@ -1604,12 +1737,13 @@ function updateCalContinue(type) {
   const dateStr = type === 'start' ? wizardState.holidayStart : wizardState.holidayEnd;
 
   if (dateStr) {
-    const date = new Date(dateStr);
-    detail.textContent = formatDateLong(date);
+    detail.textContent = formatDateLong(new Date(dateStr));
   } else {
     detail.textContent = 'Select a date';
   }
 }
+
+// ===== DATE FORMATTING =====
 
 function formatDateLong(date) {
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -1629,37 +1763,48 @@ function getDaySuffix(d) {
   }
 }
 
+function toDateParam(isoStr) {
+  if (!isoStr) return null;
+  const d = new Date(isoStr);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
 // ===== SUMMARY =====
+
+function getPartyType() {
+  if (wizardState.travellerCount === 1 || !wizardState.relationship) return 'solo';
+  return wizardState.relationship;
+}
+
 function renderSummary() {
   const container = document.getElementById('summaryContent');
   const s = wizardState;
 
   const destLabels = {
-    'europe-inc': 'Europe including Spain, Cyprus, Malta, Turkey, Greece',
-    'europe-exc': 'Europe excluding Spain, Cyprus, Malta, Turkey, Greece',
+    'europe-inc': 'Europe inc. Spain, Cyprus, Malta, Turkey, Greece',
+    'europe-exc': 'Europe exc. Spain, Cyprus, Malta, Turkey, Greece',
     'aus-nz': 'Australia & New Zealand',
-    'worldwide-inc': 'Worldwide including USA, Canada, Mexico, Caribbean',
-    'worldwide-exc': 'Worldwide excluding USA, Canada, Mexico, Caribbean'
+    'worldwide-inc': 'Worldwide inc. USA, Canada, Mexico, Caribbean',
+    'worldwide-exc': 'Worldwide exc. USA, Canada, Mexico, Caribbean'
   };
 
   let html = '<div class="summary-section-title">Trip Details</div>';
   html += summaryRow('Trip type', s.tripType === 'annual' ? 'Annual' : 'Single Trip');
+  html += summaryRow('Party type', capitalize(getPartyType()));
   html += summaryRow('Destination', destLabels[s.destination] || s.destination);
   html += summaryRow('Cruise cover', s.cruise ? 'Yes' : 'No');
-  /* Winter sports & car hire excess — commented out for now
-  html += summaryRow('Winter sports', s.winterSports ? 'Yes' : 'No');
-  html += summaryRow('Car hire excess', s.carHireExcess ? 'Yes' : 'No');
-  */
-  html += summaryRow('Cancellation cover', s.cancellationCover >= 10001 ? '£10,000+' : '£' + Number(s.cancellationCover).toLocaleString());
+  html += summaryRow('Cancellation cover', s.cancellationCover >= 10001 ? '\u00A310,000+' : '\u00A3' + Number(s.cancellationCover).toLocaleString());
 
   if (s.holidayStart) {
-    html += summaryRow('Holiday starts', formatDateLong(new Date(s.holidayStart)));
+    html += summaryRow(s.tripType === 'annual' ? 'Cover starts' : 'Holiday starts', formatDateLong(new Date(s.holidayStart)));
   }
   if (s.holidayEnd && s.tripType === 'single') {
     html += summaryRow('Holiday ends', formatDateLong(new Date(s.holidayEnd)));
   }
 
-  html += summaryRow('Relationship', s.relationship ? s.relationship.charAt(0).toUpperCase() + s.relationship.slice(1) : '');
+  if (s.travellerCount > 1 && s.relationship) {
+    html += summaryRow('Relationship', capitalize(s.relationship));
+  }
 
   html += '<div class="summary-section-title">Travellers</div>';
   s.travellers.forEach((t, i) => {
@@ -1690,20 +1835,100 @@ function medicalLabel(val) {
   return '-';
 }
 
-function submitQuote() {
-  const payload = {
-    ...wizardState,
-    timestamp: new Date().toISOString(),
-    sessionId: getSessionId()
-  };
-  console.log('INSURANCE_QUOTE_PAYLOAD', JSON.stringify(payload, null, 2));
-  alert('Quote submitted! Check the browser console for the full payload.');
+function capitalize(str) {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
-  // Save to history
-  saveToHistory(payload);
+// ===== AGENT CODE =====
+// Grabbed from the 'agent' cookie or ?agent= URL parameter (site-wide on holidayextras.com)
+
+function getAgentCode() {
+  // 1. Check URL params first (e.g. ?agent=WY992)
+  const urlParams = new URLSearchParams(window.location.search);
+  const fromUrl = urlParams.get('agent');
+  if (fromUrl) return fromUrl;
+
+  // 2. Check cookies for 'agent'
+  const match = document.cookie.match(/(?:^|; )agent=([^;]*)/);
+  if (match) return decodeURIComponent(match[1]);
+
+  return null;
+}
+
+// ===== API SUBMISSION =====
+// Builds a flat payload of ~20 variables and POSTs to the API.
+// The API returns { redirectUrl } and we send the customer there.
+
+function buildPayload() {
+  const s = wizardState;
+  return {
+    agentCode:                  getAgentCode(),
+    tripType:                   s.tripType,
+    partyType:                  getPartyType(),
+    destination:                s.destination,
+    cruise:                     s.cruise,
+    winterSports:               s.winterSports,
+    carHireExcess:              s.carHireExcess,
+    cancellationCover:          s.cancellationCover,
+    holidayStart:               toDateParam(s.holidayStart),
+    holidayEnd:                 toDateParam(s.holidayEnd),
+    travellerCount:             s.travellerCount,
+    relationship:               s.relationship,
+    email:                      s.email,
+    medicalSurgeryTreatment:    s.medical.surgeryTreatment,
+    medicalUndiagnosedSymptoms: s.medical.undiagnosedSymptoms,
+    medicalListedConditions:    s.medical.listedConditions,
+    medicalRecentConditions:    s.medical.recentConditions,
+    travellers:                 s.travellers.map(t => ({
+      title:     t.title,
+      firstName: t.firstName,
+      lastName:  t.lastName,
+      dob:       t.dob
+    }))
+  };
+}
+
+async function submitQuote() {
+  const payload = buildPayload();
+  console.log('Submitting wizard payload:', JSON.stringify(payload, null, 2));
+
+  navigateTo('results');
+  document.getElementById('resultsLoading').style.display = '';
+  document.getElementById('resultsSuccess').style.display = 'none';
+  document.getElementById('resultsError').style.display = 'none';
+
+  try {
+    const response = await fetch('/api/insurance/quote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+    console.log('API response:', result);
+
+    if (result.redirectUrl) {
+      document.getElementById('resultsLoading').style.display = 'none';
+      document.getElementById('resultsSuccess').style.display = '';
+      document.getElementById('redirectUrl').textContent = result.redirectUrl;
+      document.getElementById('redirectLink').href = result.redirectUrl;
+      document.getElementById('payloadDebug').textContent = JSON.stringify(payload, null, 2);
+    } else {
+      throw new Error(result.error || 'No redirect URL returned');
+    }
+
+  } catch (err) {
+    console.error('API error:', err);
+    document.getElementById('resultsLoading').style.display = 'none';
+    const el = document.getElementById('resultsError');
+    el.innerHTML = `<strong>Cannot reach API</strong><br>Make sure <code>node api.js</code> is running on port 3001.<br><br>Error: ${err.message}`;
+    el.style.display = '';
+  }
 }
 
 // ===== STATE PERSISTENCE =====
+
 function saveState() {
   try {
     localStorage.setItem('insuranceWizardState', JSON.stringify(wizardState));
@@ -1714,129 +1939,19 @@ function saveState() {
 function restoreState() {
   try {
     const saved = localStorage.getItem('insuranceWizardState');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      Object.assign(wizardState, parsed);
-    }
+    if (saved) Object.assign(wizardState, JSON.parse(saved));
 
-    // Show resume banner on landing
     const step = localStorage.getItem('insuranceWizardStep');
-    if (step && step !== 'landing' && step !== '') {
+    if (step && step !== 'landing' && step !== 'trip-type' && step !== '') {
       savedResumeStep = step;
-      const banner = document.getElementById('resumeBanner');
-      const detail = document.getElementById('resumeDetail');
-      banner.classList.add('visible');
-      detail.textContent = 'Pick up where you left off';
+      document.getElementById('resumeBanner').classList.add('visible');
+      document.getElementById('resumeDetail').textContent = 'Pick up where you left off';
     }
   } catch (e) { /* silent */ }
 }
 
 function resumeQuote() {
-  if (savedResumeStep) {
-    navigateTo(savedResumeStep);
-  }
-}
-
-function saveToHistory(payload) {
-  try {
-    const history = JSON.parse(localStorage.getItem('insuranceWizardHistory') || '[]');
-    history.unshift(payload);
-    if (history.length > 10) history.length = 10;
-    localStorage.setItem('insuranceWizardHistory', JSON.stringify(history));
-  } catch (e) { /* silent */ }
-}
-
-function getSessionId() {
-  let id = sessionStorage.getItem('insuranceWizardSession');
-  if (!id) {
-    id = 'iw-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
-    sessionStorage.setItem('insuranceWizardSession', id);
-  }
-  return id;
-}
-
-// ===== PRE-FILL FROM EXISTING HX DATA =====
-function loadExistingData() {
-  try {
-    // Try to read customer name
-    const customerData = localStorage.getItem('customer');
-    if (customerData) {
-      const cust = JSON.parse(customerData);
-      if (cust.first_name) {
-        document.getElementById('greetingName').textContent = cust.first_name;
-        document.getElementById('greetingBanner').classList.add('visible');
-      }
-    }
-
-    // Try to read email from cookie
-    const emailCookie = getCookie('Email');
-    if (emailCookie) {
-      wizardState.email = decodeURIComponent(emailCookie);
-    }
-
-    // Try to read from reduxStore
-    const reduxData = localStorage.getItem('reduxStore');
-    if (reduxData) {
-      const redux = JSON.parse(reduxData);
-
-      // Traveller details
-      if (redux.tripDetails && redux.tripDetails.travellers) {
-        wizardState.travellers = redux.tripDetails.travellers.map(t => ({
-          title: t.title || '',
-          firstName: t.firstName || '',
-          lastName: t.lastName || '',
-          dob: t.dob || ''
-        }));
-        wizardState.travellerCount = wizardState.travellers.length;
-      }
-
-      // Medical answers
-      if (redux.tripDetails && redux.tripDetails.triggerQuestions) {
-        const tq = redux.tripDetails.triggerQuestions;
-        if (tq.medical !== undefined) wizardState.medical.surgeryTreatment = tq.medical;
-        if (tq.psychological !== undefined) wizardState.medical.recentConditions = tq.psychological;
-        if (tq.everSufferedFrom !== undefined) wizardState.medical.listedConditions = tq.everSufferedFrom;
-        if (tq.pastYearSufferedFrom !== undefined) wizardState.medical.undiagnosedSymptoms = tq.pastYearSufferedFrom;
-      }
-
-      // Cancellation cover
-      if (redux.tripDetails && redux.tripDetails.insurance && redux.tripDetails.insurance.cancellationCover) {
-        // Stored in pence in HX, convert to pounds
-        const coverPence = redux.tripDetails.insurance.cancellationCover;
-        wizardState.cancellationCover = coverPence / 100;
-      }
-
-      // Relationship
-      if (redux.tripDetails && redux.tripDetails.insurance && redux.tripDetails.insurance.relationshipType) {
-        const relMap = { '1': 'couple', '2': 'family', '3': 'group' };
-        wizardState.relationship = relMap[redux.tripDetails.insurance.relationshipType] || null;
-      }
-
-      // Email from profile
-      if (redux.user && redux.user.profile && redux.user.profile.email) {
-        wizardState.email = redux.user.profile.email;
-      }
-    }
-
-    // Try to read trip type from persist:client
-    const clientData = localStorage.getItem('persist:client');
-    if (clientData) {
-      const client = JSON.parse(clientData);
-      if (client.insurance) {
-        const ins = JSON.parse(client.insurance);
-        if (ins.tripType === 'S') wizardState.tripType = 'single';
-        if (ins.tripType === 'A') wizardState.tripType = 'annual';
-      }
-    }
-
-  } catch (e) {
-    console.log('Pre-fill data not available:', e.message);
-  }
-}
-
-function getCookie(name) {
-  const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'));
-  return match ? decodeURIComponent(match[1]) : null;
+  if (savedResumeStep) navigateTo(savedResumeStep);
 }
 </script>
 
