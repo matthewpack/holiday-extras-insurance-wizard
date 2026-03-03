@@ -44,58 +44,35 @@
 
     /* ===== HEADER ===== */
     .header {
-      background: var(--purple);
-      padding: 12px 20px;
-      text-align: center;
       position: sticky;
       top: 0;
       z-index: 100;
-      /* relative so the absolute back button stays inside */
+    }
+    .header img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
     .header-back {
       position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 32px;
-      height: 32px;
+      left: 10px;
+      top: 10px;
+      width: 36px;
+      height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: none;
+      background: rgba(0,0,0,0.25);
+      border-radius: 50%;
       border: none;
       color: var(--white);
       font-size: 22px;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       padding: 0;
-      opacity: 0.9;
     }
     .header-back:active { opacity: 0.6; }
     .header-back.hidden { display: none; }
-    .header-logo {
-      font-size: 22px;
-      font-weight: 300;
-      color: var(--white);
-      letter-spacing: 0.5px;
-    }
-    .header-logo .holiday {
-      color: var(--gold);
-      font-weight: 400;
-    }
-    .header-logo .extras {
-      color: var(--white);
-      font-style: italic;
-      font-weight: 700;
-    }
-    .header-sub {
-      font-size: 13px;
-      font-weight: 300;
-      color: var(--white);
-      opacity: 0.85;
-      margin-top: 2px;
-      letter-spacing: 0.3px;
-    }
 
     /* ===== PROGRESS BAR ===== */
     .progress-bar {
@@ -751,8 +728,7 @@
   <!-- HEADER -->
   <header class="header" id="mainHeader">
     <button class="header-back hidden" id="btnBack" onclick="goBack()">&#8249;</button>
-    <div class="header-logo"><span class="holiday">holiday</span><span class="extras">extras</span></div>
-    <div class="header-sub">Travel Insurance &mdash; We've got your back</div>
+    <img src="logo.png" alt="Holiday Extras — Travel Insurance — We've got your back">
   </header>
 
   <!-- PROGRESS BAR -->
