@@ -44,8 +44,7 @@
 
     /* ===== HEADER ===== */
     .header {
-      position: sticky;
-      top: 0;
+      position: relative;
       z-index: 100;
     }
     .header img {
@@ -78,9 +77,6 @@
     .progress-bar {
       height: var(--progress-height);
       background: var(--grey-light);
-      position: sticky;
-      top: 0;
-      z-index: 99;
     }
     .progress-fill {
       height: 100%;
@@ -312,6 +308,49 @@
       font-size: 24px;
       flex-shrink: 0;
     }
+
+    /* ===== EMAIL INLINE SUBMIT ===== */
+    .email-row {
+      display: flex;
+      align-items: stretch;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .email-row .form-field {
+      flex: 1;
+      margin: 0;
+    }
+    .email-send {
+      width: 56px;
+      flex-shrink: 0;
+      border: none;
+      border-radius: 12px;
+      background: var(--purple);
+      color: var(--white);
+      font-size: 24px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .email-send:active { opacity: 0.8; }
+    .email-skip {
+      display: block;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--purple);
+      cursor: pointer;
+      padding: 12px;
+      border: none;
+      background: none;
+      font-family: 'Nunito', sans-serif;
+      width: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .email-skip:active { opacity: 0.6; }
+    #step-email { padding-bottom: 40px; }
 
     /* ===== CALENDAR ===== */
     .calendar { margin-bottom: 20px; }
@@ -975,20 +1014,15 @@
   <section class="step" id="step-email">
     <h2 class="step-title">Send me a copy of my quote to</h2>
 
-    <div class="form-group">
+    <div class="email-row">
       <label class="form-field">
         <span class="field-label">Email</span>
         <input type="email" id="emailInput" oninput="updateEmailContinue()" autocomplete="email">
       </label>
+      <button class="email-send" onclick="confirmEmail()">&#8250;&#8250;</button>
     </div>
 
-    <button class="continue-btn" id="btnEmailContinue" onclick="confirmEmail()">
-      <div class="btn-text">
-        <span class="btn-label">Continue</span>
-        <span class="btn-detail" id="btnEmailDetail"></span>
-      </div>
-      <span class="btn-chevron">&rsaquo;</span>
-    </button>
+    <button class="email-skip" onclick="confirmEmail()">Skip this step</button>
   </section>
 
   <!-- ===== STEP 11: ELIGIBILITY ===== -->
@@ -1261,11 +1295,7 @@ function goBack() {
 }
 
 function syncProgressBarTop() {
-  const header = document.getElementById('mainHeader');
-  const bar = document.querySelector('.progress-bar');
-  if (header && bar) {
-    bar.style.top = header.offsetHeight + 'px';
-  }
+  // No longer needed — header and progress bar scroll with page
 }
 
 function showStep(hash) {
@@ -1297,7 +1327,7 @@ function showStep(hash) {
     btnBack.classList.toggle('hidden', isFirst || isResults);
   }
 
-  window.scrollTo(0, 0);
+  setTimeout(() => window.scrollTo(0, 0), 0);
   saveState();
 
   if (hash === 'holiday-start') {
@@ -1518,9 +1548,7 @@ function setupEmailForm() {
 }
 
 function updateEmailContinue() {
-  const email = document.getElementById('emailInput').value.trim();
-  const detail = document.getElementById('btnEmailDetail');
-  detail.textContent = (email && email.includes('@')) ? 'Email ' + email : 'Skip or enter your email';
+  // No longer updating a fixed button — inline layout handles this
 }
 
 function confirmEmail() {
