@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="//dbq5t2jl0vcpj.cloudfront.net/hx-tracker/tracker-v5-latest.min.js"></script>
   <style>
     /* ===== RESET & BASE ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -801,7 +802,7 @@
   <section class="step" id="step-trip-type">
     <h2 class="step-title">How many trips are you planning in the next 12 months?</h2>
 
-    <div class="card card-large" onclick="selectTripType('annual')">
+    <div class="card card-large" data-track-name="insurance-wizard-stage1-cover-type" data-track-value="annual" onclick="selectTripType('annual')">
       <div class="card-content">
         <div class="card-title">Annual Cover</div>
         <div class="card-subtitle">Unlimited trips for 12 months.<br>Usually better value and more convenient if you travel more than once in the UK or abroad.</div>
@@ -810,7 +811,7 @@
 
     <p class="step-description mt-16 mb-24">Annual cover renews automatically each year &ndash; we'll remind you before it does, and you can opt out at any time.</p>
 
-    <div class="card card-large" onclick="selectTripType('single')">
+    <div class="card card-large" data-track-name="insurance-wizard-stage1-cover-type" data-track-value="single" onclick="selectTripType('single')">
       <div class="card-content">
         <div class="card-title">Single Trip Cover</div>
         <div class="card-subtitle">One trip only.<br>You'll still see the annual price to compare before you decide</div>
@@ -822,34 +823,34 @@
   <section class="step" id="step-destination">
     <h2 class="step-title">Travelling to</h2>
 
-    <div class="card" onclick="selectDestination('europe-inc')">
+    <div class="card" data-track-name="insurance-wizard-stage2-destination" data-track-value="europe-inc" onclick="selectDestination('europe-inc')">
       <div class="card-content">
         <div class="card-title">Europe <em>including</em></div>
         <div class="card-subtitle">Spain, Cyprus, Malta, Turkey, Greece</div>
       </div>
     </div>
 
-    <div class="card" onclick="selectDestination('europe-exc')">
+    <div class="card" data-track-name="insurance-wizard-stage2-destination" data-track-value="europe-exc" onclick="selectDestination('europe-exc')">
       <div class="card-content">
         <div class="card-title">Europe <em>excluding</em></div>
         <div class="card-subtitle">Spain, Cyprus, Malta, Turkey, Greece</div>
       </div>
     </div>
 
-    <div class="card" onclick="selectDestination('aus-nz')">
+    <div class="card" data-track-name="insurance-wizard-stage2-destination" data-track-value="aus-nz" onclick="selectDestination('aus-nz')">
       <div class="card-content">
         <div class="card-title">Australia &amp; New Zealand</div>
       </div>
     </div>
 
-    <div class="card" onclick="selectDestination('worldwide-inc')">
+    <div class="card" data-track-name="insurance-wizard-stage2-destination" data-track-value="worldwide-inc" onclick="selectDestination('worldwide-inc')">
       <div class="card-content">
         <div class="card-title">Worldwide <em>including</em></div>
         <div class="card-subtitle">USA, Canada, Mexico and Caribbean</div>
       </div>
     </div>
 
-    <div class="card" onclick="selectDestination('worldwide-exc')">
+    <div class="card" data-track-name="insurance-wizard-stage2-destination" data-track-value="worldwide-exc" onclick="selectDestination('worldwide-exc')">
       <div class="card-content">
         <div class="card-title">Worldwide <em>excluding</em></div>
         <div class="card-subtitle">USA, Canada, Mexico and Caribbean</div>
@@ -862,11 +863,11 @@
     <h2 class="step-title">Going on a sea cruise?</h2>
 
     <div class="cards-row">
-      <div class="card-yn" onclick="selectCruise(false)">
+      <div class="card-yn" data-track-name="insurance-wizard-stage3-cruise" data-track-value="no" onclick="selectCruise(false)">
         <div class="yn-title">No <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Cruise cover not required</div>
       </div>
-      <div class="card-yn" onclick="selectCruise(true)">
+      <div class="card-yn" data-track-name="insurance-wizard-stage3-cruise" data-track-value="yes" onclick="selectCruise(true)">
         <div class="yn-title">Yes <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Add Cruise Cover</div>
       </div>
@@ -879,16 +880,16 @@
   <section class="step" id="step-cancellation">
     <h2 class="step-title">Cancellation cover</h2>
 
-    <button class="amount-btn" onclick="selectCancellation(500)"><strong>&pound;500</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(1000)"><strong>&pound;1,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(2500)"><strong>&pound;2,500</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(5000)"><strong>&pound;5,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(6000)"><strong>&pound;6,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(7000)"><strong>&pound;7,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(8000)"><strong>&pound;8,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(9000)"><strong>&pound;9,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(10000)"><strong>&pound;10,000</strong> per person</button>
-    <button class="amount-btn" onclick="selectCancellation(10001)"><strong>&pound;10,000+</strong> per person</button>
+    <button class="amount-btn" data-track-name="insurance-wizard-stage4-cancellation" data-track-value="500" onclick="selectCancellation(500)"><strong>&pound;500</strong> per person</button>
+    <button class="amount-btn" data-track-name="insurance-wizard-stage4-cancellation" data-track-value="1000" onclick="selectCancellation(1000)"><strong>&pound;1,000</strong> per person</button>
+    <button class="amount-btn" data-track-name="insurance-wizard-stage4-cancellation" data-track-value="2500" onclick="selectCancellation(2500)"><strong>&pound;2,500</strong> per person</button>
+    <button class="amount-btn" data-track-name="insurance-wizard-stage4-cancellation" data-track-value="5000" onclick="selectCancellation(5000)"><strong>&pound;5,000</strong> per person</button>
+    <button class="amount-btn" data-track-name="insurance-wizard-stage4-cancellation" data-track-value="6000" onclick="selectCancellation(6000)"><strong>&pound;6,000</strong> per person</button>
+    <button class="amount-btn" data-track-name="insurance-wizard-stage4-cancellation" data-track-value="7000" onclick="selectCancellation(7000)"><strong>&pound;7,000</strong> per person</button>
+    <button class="amount-btn" data-track-name="insurance-wizard-stage4-cancellation" data-track-value="8000" onclick="selectCancellation(8000)"><strong>&pound;8,000</strong> per person</button>
+    <button class="amount-btn" data-track-name="insurance-wizard-stage4-cancellation" data-track-value="9000" onclick="selectCancellation(9000)"><strong>&pound;9,000</strong> per person</button>
+    <button class="amount-btn" data-track-name="insurance-wizard-stage4-cancellation" data-track-value="10000" onclick="selectCancellation(10000)"><strong>&pound;10,000</strong> per person</button>
+    <button class="amount-btn" data-track-name="insurance-wizard-stage4-cancellation" data-track-value="10001" onclick="selectCancellation(10001)"><strong>&pound;10,000+</strong> per person</button>
   </section>
 
   <!-- ===== STEP 5: HOLIDAY START ===== -->
@@ -922,15 +923,15 @@
   <section class="step" id="step-travellers">
     <h2 class="step-title">Travellers</h2>
     <div class="number-grid">
-      <button class="number-btn" onclick="selectTravellers(1)">1</button>
-      <button class="number-btn" onclick="selectTravellers(2)">2</button>
-      <button class="number-btn" onclick="selectTravellers(3)">3</button>
-      <button class="number-btn" onclick="selectTravellers(4)">4</button>
-      <button class="number-btn" onclick="selectTravellers(5)">5</button>
-      <button class="number-btn" onclick="selectTravellers(6)">6</button>
-      <button class="number-btn" onclick="selectTravellers(7)">7</button>
-      <button class="number-btn" onclick="selectTravellers(8)">8</button>
-      <button class="number-btn" onclick="selectTravellers(9)">9</button>
+      <button class="number-btn" data-track-name="insurance-wizard-stage7-party-size" data-track-value="1" onclick="selectTravellers(1)">1</button>
+      <button class="number-btn" data-track-name="insurance-wizard-stage7-party-size" data-track-value="2" onclick="selectTravellers(2)">2</button>
+      <button class="number-btn" data-track-name="insurance-wizard-stage7-party-size" data-track-value="3" onclick="selectTravellers(3)">3</button>
+      <button class="number-btn" data-track-name="insurance-wizard-stage7-party-size" data-track-value="4" onclick="selectTravellers(4)">4</button>
+      <button class="number-btn" data-track-name="insurance-wizard-stage7-party-size" data-track-value="5" onclick="selectTravellers(5)">5</button>
+      <button class="number-btn" data-track-name="insurance-wizard-stage7-party-size" data-track-value="6" onclick="selectTravellers(6)">6</button>
+      <button class="number-btn" data-track-name="insurance-wizard-stage7-party-size" data-track-value="7" onclick="selectTravellers(7)">7</button>
+      <button class="number-btn" data-track-name="insurance-wizard-stage7-party-size" data-track-value="8" onclick="selectTravellers(8)">8</button>
+      <button class="number-btn" data-track-name="insurance-wizard-stage7-party-size" data-track-value="9" onclick="selectTravellers(9)">9</button>
     </div>
   </section>
 
@@ -938,7 +939,7 @@
   <section class="step" id="step-relationship">
     <h2 class="step-title">Relationship</h2>
 
-    <div class="card" onclick="selectRelationship('couple')">
+    <div class="card" data-track-name="insurance-wizard-stage8-relationship" data-track-value="couple" onclick="selectRelationship('couple')">
       <div class="card-content">
         <div class="card-title">Couple</div>
         <div class="card-subtitle">Two adults living together.</div>
@@ -946,7 +947,7 @@
       <span class="card-chevron">&rsaquo;</span>
     </div>
 
-    <div class="card" onclick="selectRelationship('family')">
+    <div class="card" data-track-name="insurance-wizard-stage8-relationship" data-track-value="family" onclick="selectRelationship('family')">
       <div class="card-content">
         <div class="card-title">Family</div>
         <div class="card-subtitle">Parents and up to five children under 18 in the same household.</div>
@@ -954,7 +955,7 @@
       <span class="card-chevron">&rsaquo;</span>
     </div>
 
-    <div class="card" onclick="selectRelationship('group')">
+    <div class="card" data-track-name="insurance-wizard-stage8-relationship" data-track-value="group" onclick="selectRelationship('group')">
       <div class="card-content">
         <div class="card-title">Group</div>
         <div class="card-subtitle">Anyone travelling together.</div>
@@ -1024,10 +1025,10 @@
         <span class="field-label">Email</span>
         <input type="email" id="emailInput" oninput="updateEmailContinue()" autocomplete="email">
       </label>
-      <button class="email-send" onclick="confirmEmail()">&#8250;&#8250;</button>
+      <button class="email-send" data-track-name="insurance-wizard-stage10-email-q2-send" onclick="confirmEmail()">&#8250;&#8250;</button>
     </div>
 
-    <button class="email-skip" onclick="confirmEmail()">Skip this step</button>
+    <button class="email-skip" data-track-name="insurance-wizard-stage10-email-q2-skip" onclick="confirmEmail()">Skip this step</button>
   </section>
 
   <!-- ===== STEP 11: ELIGIBILITY ===== -->
@@ -1050,7 +1051,7 @@
       <p class="eligibility-text">If you are travelling against medical advice, or travelling specifically to receive medical treatment</p>
     </div>
 
-    <button class="continue-btn" onclick="agreeEligibility()">
+    <button class="continue-btn" data-track-name="insurance-wizard-stage11-eligibility-q1-agree" onclick="agreeEligibility()">
       <div class="btn-text">
         <span class="btn-label">Agree and continue</span>
         <span class="btn-detail">I have read the above criteria</span>
@@ -1072,11 +1073,11 @@
     </div>
 
     <div class="cards-row mt-16">
-      <div class="card-yn" onclick="answerMedical('surgeryTreatment', false)">
+      <div class="card-yn" data-track-name="insurance-wizard-stage12-medical-q1" data-track-value="no" onclick="answerMedical('surgeryTreatment', false)">
         <div class="yn-title">No <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">None of these apply</div>
       </div>
-      <div class="card-yn" onclick="answerMedical('surgeryTreatment', true)">
+      <div class="card-yn" data-track-name="insurance-wizard-stage12-medical-q1" data-track-value="yes" onclick="answerMedical('surgeryTreatment', true)">
         <div class="yn-title">Yes <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Applies to someone</div>
       </div>
@@ -1093,11 +1094,11 @@
     </div>
 
     <div class="cards-row mt-16">
-      <div class="card-yn" onclick="answerMedical('undiagnosedSymptoms', false)">
+      <div class="card-yn" data-track-name="insurance-wizard-stage12-medical-q2" data-track-value="no" onclick="answerMedical('undiagnosedSymptoms', false)">
         <div class="yn-title">No <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Doesn't apply to anyone</div>
       </div>
-      <div class="card-yn" onclick="answerMedical('undiagnosedSymptoms', true)">
+      <div class="card-yn" data-track-name="insurance-wizard-stage12-medical-q2" data-track-value="yes" onclick="answerMedical('undiagnosedSymptoms', true)">
         <div class="yn-title">Yes <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Applies to someone</div>
       </div>
@@ -1127,11 +1128,11 @@
     </div>
 
     <div class="cards-row mt-16">
-      <div class="card-yn" onclick="answerMedical('listedConditions', false)">
+      <div class="card-yn" data-track-name="insurance-wizard-stage12-medical-q3" data-track-value="no" onclick="answerMedical('listedConditions', false)">
         <div class="yn-title">No <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">None of these apply</div>
       </div>
-      <div class="card-yn" onclick="answerMedical('listedConditions', true)">
+      <div class="card-yn" data-track-name="insurance-wizard-stage12-medical-q3" data-track-value="yes" onclick="answerMedical('listedConditions', true)">
         <div class="yn-title">Yes <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Applies to someone</div>
       </div>
@@ -1148,11 +1149,11 @@
     </div>
 
     <div class="cards-row mt-16">
-      <div class="card-yn" onclick="answerMedical('recentConditions', false)">
+      <div class="card-yn" data-track-name="insurance-wizard-stage12-medical-q4" data-track-value="no" onclick="answerMedical('recentConditions', false)">
         <div class="yn-title">No <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">None of these apply</div>
       </div>
-      <div class="card-yn" onclick="answerMedical('recentConditions', true)">
+      <div class="card-yn" data-track-name="insurance-wizard-stage12-medical-q4" data-track-value="yes" onclick="answerMedical('recentConditions', true)">
         <div class="yn-title">Yes <span class="yn-chevron">&rsaquo;</span></div>
         <div class="yn-subtitle">Applies to someone</div>
       </div>
@@ -1163,7 +1164,7 @@
   <section class="step" id="step-summary">
     <h2 class="step-title">Your quote summary</h2>
     <div id="summaryContent"></div>
-    <button class="continue-btn" onclick="submitQuote()">
+    <button class="continue-btn" data-track-name="insurance-wizard-stage13-summary-q1-submit" onclick="submitQuote()">
       <div class="btn-text">
         <span class="btn-label">Get my quote</span>
         <span class="btn-detail">Submit to see your price</span>
@@ -1347,6 +1348,35 @@ function showStep(hash) {
   }
   if (hash === 'email') setupEmailForm();
   if (hash === 'summary') renderSummary();
+
+  // Track page view
+  if (window.tracker) {
+    const pageMap = {
+      'trip-type': 'stage1-cover-type',
+      'destination': 'stage2-destination',
+      'cruise': 'stage3-cruise',
+      'cancellation': 'stage4-cancellation',
+      'holiday-start': 'stage5-coverstart',
+      'holiday-end': 'stage6-coverend',
+      'travellers': 'stage7-party-size',
+      'relationship': 'stage8-relationship',
+      'email': 'stage10-email',
+      'eligibility': 'stage11-eligibility',
+      'medical-1': 'stage12-medical-q1',
+      'medical-2': 'stage12-medical-q2',
+      'medical-3': 'stage12-medical-q3',
+      'medical-4': 'stage12-medical-q4',
+      'summary': 'stage13-summary',
+      'results': 'stage14-results'
+    };
+    let pageName = pageMap[hash];
+    if (!pageName && hash.startsWith('traveller-')) {
+      pageName = 'stage9-traveller' + hash.split('-')[1];
+    }
+    if (pageName) {
+      tracker.page('insurance-wizard', { page_type: pageName });
+    }
+  }
 }
 
 window.addEventListener('hashchange', () => {
@@ -1354,6 +1384,17 @@ window.addEventListener('hashchange', () => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
+  // Initialise HX Tracker
+  if (window.tracker) {
+    tracker.initialise({
+      env: window.location.hostname === 'localhost' ? 'development' : 'production',
+      service: 'insurance-wizard',
+      organisation: 'Holiday Extras Limited',
+      lb: false,
+      untracked_inputs: ['travellerTitle', 'travellerFirstName', 'travellerLastName', 'travellerDob', 'emailInput']
+    });
+  }
+
   try { restoreState(); } catch (e) { console.warn('restoreState error:', e); }
   syncProgressBarTop();
   showStep(window.location.hash.slice(1) || 'trip-type');
@@ -1386,6 +1427,12 @@ function selectCancellation(amount) {
 }
 
 function confirmHolidayStart() {
+  if (window.tracker) {
+    tracker.inline('click', {
+      name: 'insurance-wizard-stage5-coverstart-q4-continue',
+      value: toDateParam(wizardState.holidayStart) || ''
+    });
+  }
   wizardState.holidayEnd = null;
   calState.end = { year: null, month: null, day: null, initialized: false };
   if (wizardState.tripType === 'annual') {
@@ -1396,6 +1443,12 @@ function confirmHolidayStart() {
 }
 
 function confirmHolidayEnd() {
+  if (window.tracker) {
+    tracker.inline('click', {
+      name: 'insurance-wizard-stage6-coverend-q4-continue',
+      value: toDateParam(wizardState.holidayEnd) || ''
+    });
+  }
   navigateTo('travellers');
 }
 
@@ -1537,6 +1590,18 @@ function confirmTraveller() {
     lastName: lastName,
     dob: dobStr
   };
+
+  // Track traveller details
+  if (window.tracker) {
+    const tNum = idx + 1;
+    const prefix = 'insurance-wizard-stage9-traveller' + tNum;
+    tracker.inline('capture', { name: prefix + '-q1-title', value: title });
+    tracker.inline('capture', { name: prefix + '-q2-firstname', value: firstName });
+    tracker.inline('capture', { name: prefix + '-q3-lastname', value: lastName });
+    tracker.inline('capture', { name: prefix + '-q4-dob', value: dobStr });
+    tracker.inline('click', { name: prefix + '-q5-continue', value: title + ' ' + firstName + ' ' + lastName });
+  }
+
   if (idx + 1 < wizardState.travellerCount) {
     navigateTo('traveller-' + (idx + 2));
   } else {
@@ -1559,6 +1624,14 @@ function updateEmailContinue() {
 function confirmEmail() {
   const email = document.getElementById('emailInput').value.trim();
   wizardState.email = email || null;
+
+  // Track email
+  if (window.tracker) {
+    if (email) {
+      tracker.inline('capture', { name: 'insurance-wizard-stage10-email-q1-email', value: email });
+    }
+  }
+
   navigateTo('eligibility');
 }
 
@@ -1566,6 +1639,7 @@ function confirmEmail() {
 
 function agreeEligibility() {
   wizardState.eligibilityAgreed = true;
+  // Eligibility agree click tracked via data-track-name on button
   navigateTo('medical-1');
 }
 
@@ -1647,16 +1721,18 @@ function renderCalendar(type) {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
+  const trackStage = type === 'start' ? 'stage5-coverstart' : 'stage6-coverend';
+
   let html = '<div class="year-toggle">';
   years.forEach(y => {
-    html += `<button class="year-btn ${state.year === y ? 'active' : ''}" onclick="setCalYear('${type}', ${y})">${y}</button>`;
+    html += `<button class="year-btn ${state.year === y ? 'active' : ''}" data-track-name="insurance-wizard-${trackStage}-q1-year" data-track-value="${y}" onclick="setCalYear('${type}', ${y})">${y}</button>`;
   });
   html += '</div>';
 
   html += '<div class="month-grid">';
   months.forEach((m, i) => {
     const isPast = state.year === now.getFullYear() && i < now.getMonth();
-    html += `<button class="month-btn ${state.month === i ? 'active' : ''} ${isPast ? 'disabled' : ''}" onclick="setCalMonth('${type}', ${i})">${m}</button>`;
+    html += `<button class="month-btn ${state.month === i ? 'active' : ''} ${isPast ? 'disabled' : ''}" data-track-name="insurance-wizard-${trackStage}-q2-month" data-track-value="${String(i + 1).padStart(2, '0')}" onclick="setCalMonth('${type}', ${i})">${m}</button>`;
   });
   html += '</div>';
 
@@ -1692,7 +1768,7 @@ function renderCalendar(type) {
     if (isToday) classes.push('today');
     if (isSelected) classes.push('selected');
 
-    html += `<div class="${classes.join(' ')}" onclick="selectCalDay('${type}', ${d})">${d}</div>`;
+    html += `<div class="${classes.join(' ')}" data-track-name="insurance-wizard-${trackStage}-q3-day" data-track-value="${d}" onclick="selectCalDay('${type}', ${d})">${d}</div>`;
   }
   html += '</div>';
 
@@ -1901,6 +1977,8 @@ function buildPayload() {
 async function submitQuote() {
   const payload = buildPayload();
   console.log('Submitting wizard payload:', JSON.stringify(payload, null, 2));
+
+  // Submit click tracked via data-track-name on button
 
   navigateTo('results');
   document.getElementById('resultsLoading').style.display = '';
